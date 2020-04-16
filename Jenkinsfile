@@ -14,6 +14,7 @@ pipeline {
     stages {
         stage('Install PGClone dblab tool') {
             steps {
+
                 sh './jenkins/scripts/install-dblab.sh'
                 sh("dblab init --environment-id=staging --url=$DBLAB_STAGE_URL --token=$DBLAB_STAGE_TOKEN --insecure")
             }
