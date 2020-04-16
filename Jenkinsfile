@@ -14,7 +14,7 @@ pipeline {
                 sh "pwd"
                 sh "which dblab"
                 sh "dblab"
-                sh "dblab init --environment-id=staging --url=https://toto --token=toto --insecure"
+                sh "sudo dblab init --environment-id=staging --url=https://toto --token=toto --insecure"
             }
         }
         stage('Check PGClone') {
