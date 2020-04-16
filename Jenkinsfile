@@ -13,6 +13,7 @@ pipeline {
                 sh "id -g"
                 sh "pwd"
                 sh "which dblab"
+                sh "dblab"
                 sh "dblab init --environment-id=staging --url=$DBLAB_STAGE_URL --token=$DBLAB_STAGE_TOKEN --insecure"
             }
         }
