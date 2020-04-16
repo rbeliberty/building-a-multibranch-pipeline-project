@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Check PGClone') {
             steps {
-                sh 'which dblab'
+                sh 'dblab'
                 sh '/usr/local/bin/dblab snapshot list'
             }
         }
