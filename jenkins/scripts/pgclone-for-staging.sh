@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Vérifier la présence d'un clone lié à la PR ou à la branch en cours en base
 ## Si présent, utiliser ce clone
@@ -11,5 +11,6 @@
 # Prérequis :
 # Il faut que le client dblab (alias db dans zshrc) soit installé et initialisé
 
-
+set -x
 dblab snapshot list
+set +x
