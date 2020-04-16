@@ -11,7 +11,6 @@ pipeline {
     stages {
         stage('Install PGClone dblab tool') {
             steps {
-                sh "whoami"
                 sh "id -u"
                 sh "id -g"
                 sh "pwd"
