@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000 -p 5000:5000'
-        }
-    }
+    agent { dockerfile true }
     environment {
         CI = 'true'
         HOME = '.'
@@ -14,8 +9,6 @@ pipeline {
     stages {
         stage('Install PGClone dblab tool') {
             steps {
-
-                sh './jenkins/scripts/install-dblab.sh'
                 sh("dblab init --environment-id=staging --url=$DBLAB_STAGE_URL --token=$DBLAB_STAGE_TOKEN --insecure")
             }
         }
