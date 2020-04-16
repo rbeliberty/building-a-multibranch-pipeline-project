@@ -16,7 +16,7 @@ pipeline {
                 sh "pwd"
                 sh "which dblab"
                 sh "dblab"
-                sh "dblab config"
+                sh "dblab init"
             }
         }
         stage('Check PGClone') {
