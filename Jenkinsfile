@@ -27,6 +27,7 @@ pipeline {
                 sh 'npm install'
             }
         }
+
         stage('Check branch name') {
             steps {
                 echo 'branch name ' + env.BRANCH_NAME
