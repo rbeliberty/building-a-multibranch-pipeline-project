@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000 -p 5000:5000'
-        }
-    }
+    agent none
     environment {
         CI = 'true'
         HOME = '.'
@@ -19,6 +14,12 @@ pipeline {
             }
         }
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:6-alpine'
+                    args '-p 3000:3000 -p 5000:5000'
+                }
+            }
             steps {
                 sh 'npm install'
             }

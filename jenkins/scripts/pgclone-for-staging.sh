@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# Si on est dans un agent Docker, il faut installer dblab
+
 # Vérifier la présence d'un clone lié à la PR ou à la branch en cours en base
 ## Si présent, utiliser ce clone
 
