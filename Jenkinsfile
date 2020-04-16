@@ -8,18 +8,22 @@ pipeline {
     environment {
         CI = 'true'
         HOME = '.'
+        DBLAB_STAGE_URL     = credentials('jenkins-dblab-stage-url')
+        DBLAB_STAGE_TOKEN   = credentials('jenkins-dblab-stage-token')
     }
     stages {
+        stage('Install PGClone dblab tool') {
+            steps {
+                sh './jenkins/scripts/install-dblab.sh'
+                sh("dblab init --environment-id=staging --url=$DBLAB_STAGE_URL --token=$DBLAB_STAGE_TOKEN --insecure")
+            }
+        }
         stage('Check PGClone') {
             steps {
-                sh 'pwd'
-                sh 'which ls'
-                sh 'ls -la'
-                sh '/usr/local/bin/dblab snapshot list'
+                sh 'dblab snapshot list'
             }
         }
         stage('Build') {
-
             steps {
                 sh 'npm install'
             }
