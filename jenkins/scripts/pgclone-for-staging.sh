@@ -12,4 +12,4 @@
 # Il faut que le client dblab (alias db dans zshrc) soit installé et initialisé
 
 
-dbal snapshot list
+dblab snapshot list
