@@ -12,5 +12,5 @@ RUN apt-get install -y \
 RUN curl https://gitlab.com/postgres-ai/database-lab/-/raw/master/scripts/cli_install.sh | bash
 
 RUN echo "**** Installation NodeJS ****"
-RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION} | bash -
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y nodejs
