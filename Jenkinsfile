@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Check PGClone') {
             steps {
-                sh './jenkins/scripts/pgclone-for-staging.sh'
+                sh 'dblab snapshot list'
             }
         }
         stage('Build') {
