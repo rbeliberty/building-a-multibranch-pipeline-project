@@ -13,13 +13,13 @@ pipeline {
                 sh '/usr/local/bin/dblab snapshot list'
             }
         }
-        stage('Build') {
-            agent {
-                docker {
-                    image 'node:6-alpine'
-                    args '-p 3000:3000 -p 5000:5000'
-                }
+        agent {
+            docker {
+                image 'node:6-alpine'
+                args '-p 3000:3000 -p 5000:5000'
             }
+        }
+        stage('Build') {
             steps {
                 sh 'npm install'
             }
