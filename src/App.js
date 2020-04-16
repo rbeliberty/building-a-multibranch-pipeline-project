@@ -15,7 +15,9 @@ class App extends Component {
             <br/>
             This is a new line I added.
             <br />
-            Add a new feature
+            Add a new feature 1
+            <br />
+            Add a new feature 2
         </p>
       </div>
     );
