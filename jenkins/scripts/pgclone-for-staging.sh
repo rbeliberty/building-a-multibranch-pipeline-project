@@ -12,5 +12,5 @@
 # Il faut que le client dblab (alias db dans zshrc) soit installé et initialisé
 
 set -x
-dblab snapshot list
+/usr/local/bin/dblab snapshot list
 set +x
