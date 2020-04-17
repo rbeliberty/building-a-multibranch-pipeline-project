@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
 RUN groupadd -r -g 112 jenkins
-RUN useradd -M -r -u 106 -g jenkins jenkins
+RUN useradd -r -u 106 -g jenkins jenkins
 
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y \
@@ -9,8 +9,7 @@ RUN apt-get install -y \
   ca-certificates \
   apt-transport-https \
   gnupg \
-  curl \
-  sudo
+  curl
 
 
 RUN curl https://gitlab.com/postgres-ai/database-lab/-/raw/master/scripts/cli_install.sh | bash
