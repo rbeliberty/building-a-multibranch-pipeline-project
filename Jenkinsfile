@@ -1,13 +1,3 @@
-if (env.BRANCH_NAME.startsWith("PR-")) {
-    echo "Deploying to Dev environment after build"
-    def ENV="staging"
-} else if (env.BRANCH_NAME.startsWith("Release_")) {
-    echo "Deploying to Stage after build and Dev Deployment"
-    def ENV="preprod"
-} else if (env.BRANCH_NAME.startsWith("master")) {
-    echo "Deploying to PROD environment"
-    def ENV="prod"
-}
 
 pipeline {
     agent {
@@ -15,9 +5,21 @@ pipeline {
             label 'php-node'
         }
     }
+    if (env.BRANCH_NAME.startsWith("PR-")) {
+        echo "Deploying to Dev environment after build"
+        def ENV="staging"
+    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+        echo "Deploying to Stage after build and Dev Deployment"
+        def ENV="preprod"
+    } else if (env.BRANCH_NAME.startsWith("master")) {
+        echo "Deploying to PROD environment"
+        def ENV="prod"
+    }
+
     environment {
         CI = 'true'
         HOME = '.'
+        ENV = ${ENV}
         DBLAB_STAGE_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_STAGE_TOKEN   = credentials('jenkins-dblab-stage-token')
     }
