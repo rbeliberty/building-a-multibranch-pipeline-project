@@ -1,7 +1,7 @@
 FROM debian:stretch-slim
 RUN groupadd -r -g 112 jenkins
 RUN useradd -M -r -u 106 -g jenkins jenkins
-USER jenkins
+
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y \
   build-essential \
