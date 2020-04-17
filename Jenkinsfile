@@ -1,9 +1,12 @@
 if (env.BRANCH_NAME.startsWith("PR-")) {
     echo "Deploying to Dev environment after build"
+    def ENV="staging"
 } else if (env.BRANCH_NAME.startsWith("Release_")) {
     echo "Deploying to Stage after build and Dev Deployment"
+    def ENV="preprod"
 } else if (env.BRANCH_NAME.startsWith("master")) {
     echo "Deploying to PROD environment"
+    def ENV="prod"
 }
 
 pipeline {
@@ -21,7 +24,7 @@ pipeline {
     stages {
         stage('Init PGClone dblab tool') {
             steps {
-                sh 'dblab init --environment-id=staging --url=$DBLAB_STAGE_URL --token=$DBLAB_STAGE_TOKEN --insecure'
+                sh 'dblab init --environment-id=${ENV} --url=$DBLAB_STAGE_URL --token=$DBLAB_STAGE_TOKEN --insecure'
             }
         }
         stage('Check PGClone') {
@@ -84,9 +87,9 @@ pipeline {
             }
         }
     }
-    /*post {
+    post {
         always {
             cleanWs()
         }
-    }*/
+    }
 }
