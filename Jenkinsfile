@@ -21,9 +21,9 @@ pipeline {
         DBLAB_STAGE_TOKEN   = credentials('jenkins-dblab-stage-token')
     }
     stages {
-        stage(' PGClone dblab tool') {
+        stage(' Init dblab') {
             steps {
-                sh './jenkins/scripts/init-dblab.sh'
+                sh './jenkins/scripts/init-dblab.sh $DBLAB_STAGE_URL $DBLAB_STAGE_TOKEN'
             }
         }
         stage('Check PGClone and get one') {
