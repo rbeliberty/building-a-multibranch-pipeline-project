@@ -12,7 +12,7 @@ if (env.BRANCH_NAME.startsWith("PR-")) {
 pipeline {
     agent {
         dockerfile {
-            label: 'php-node'
+            label 'php-node'
         }
     }
     environment {
