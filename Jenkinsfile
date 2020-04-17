@@ -19,7 +19,6 @@ pipeline {
     environment {
         CI = 'true'
         HOME = '.'
-        ENV = ${ENV}
         DBLAB_STAGE_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_STAGE_TOKEN   = credentials('jenkins-dblab-stage-token')
     }
