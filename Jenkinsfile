@@ -5,7 +5,7 @@ pipeline {
             label 'php-node'
         }
     }
-    if (env.BRANCH_NAME.startsWith("PR-")) {
+    /*if (env.BRANCH_NAME.startsWith("PR-")) {
         echo "Deploying to Dev environment after build"
         def ENV="staging"
     } else if (env.BRANCH_NAME.startsWith("Release_")) {
@@ -14,7 +14,7 @@ pipeline {
     } else if (env.BRANCH_NAME.startsWith("master")) {
         echo "Deploying to PROD environment"
         def ENV="prod"
-    }
+    }*/
 
     environment {
         CI = 'true'
