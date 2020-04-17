@@ -13,5 +13,5 @@
 ### Stocker en base l'association PR/branch + clone ID + Snapshot ID en base
 
 set -x
-/usr/local/bin/dblab snapshot list
+dblab snapshot list | jq
 set +x

@@ -9,6 +9,7 @@ RUN apt-get install -y \
   ca-certificates \
   apt-transport-https \
   gnupg \
-  curl
+  curl \
+  jq
 
 RUN curl -s https://gitlab.com/postgres-ai/database-lab/-/raw/master/scripts/cli_install.sh | bash

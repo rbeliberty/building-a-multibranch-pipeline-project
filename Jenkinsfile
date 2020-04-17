@@ -27,14 +27,14 @@ pipeline {
                 sh './jenkins/scripts/init-dblab.sh'
             }
         }
-        stage('Check PGClone') {
+        stage('Check PGClone and get one') {
             steps {
-                sh 'dblab snapshot list'
+                sh './jenkins/scripts/pgclone.sh'
             }
         }
         stage('Build') {
             steps {
-                sh 'npm install'
+                sh "echo 'Clone deployment with ID snapshot'"
             }
         }
 
