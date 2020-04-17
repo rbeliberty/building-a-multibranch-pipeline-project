@@ -11,13 +11,13 @@ pipeline {
     stages {
         stage('Install PGClone dblab tool') {
             steps {
-
+                sh "echo $USER"
                 sh "id -u"
                 sh "id -g"
                 sh "pwd"
                 sh "which dblab"
                 sh "dblab"
-                sh 'sudo su && dblab init --environment-id=staging --url=toto --token=eee --insecure'
+                sh 'sudo dblab init --environment-id=staging --url=toto --token=eee --insecure'
                 sh "mkdir toto"
             }
         }
