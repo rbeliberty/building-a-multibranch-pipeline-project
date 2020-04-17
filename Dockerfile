@@ -1,5 +1,5 @@
 FROM debian:stretch-slim
-RUN useradd -r -u 106 -g 112 jenkins
+RUN useradd -r -u 106 -g jenkins jenkins
 USER jenkins
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y \
