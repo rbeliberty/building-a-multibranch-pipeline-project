@@ -32,28 +32,24 @@ pipeline {
                 sh './jenkins/scripts/pgclone.sh'
             }
         }
-        stage('Build') {
+        stage('Clone a DB snapshot') {
             steps {
                 sh "echo 'Clone deployment with ID snapshot'"
             }
         }
-
         stage('Check branch name') {
             steps {
                 echo 'branch name ' + env.BRANCH_NAME
-
-                /*if (env.BRANCH_NAME.startsWith("Feature_")) {
-                    echo "Deploying to Dev environment after build"
-                } else if (env.BRANCH_NAME.startsWith("Release_")) {
-                    echo "Deploying to Stage after build and Dev Deployment"
-                } else if (env.BRANCH_NAME.startsWith("master")) {
-                    echo "Deploying to PROD environment"
-                }*/
             }
         }
-        stage('Test') {
+        stage('PG Connection Test') {
             steps {
-                sh './jenkins/scripts/test.sh'
+                sh 'echo ./jenkins/scripts/pg.sh'
+            }
+        }
+        stage('Backup association PGClone') {
+            steps {
+                sh 'echo ./jenkins/scripts/backup.sh'
             }
         }
         stage('Deliver for PR in Staging'){
