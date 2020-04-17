@@ -17,7 +17,7 @@ pipeline {
                 sh "pwd"
                 sh "which dblab"
                 sh "dblab"
-                // sh 'sudo su && dblab init --environment-id=staging --url=toto --token=eee --insecure'
+                sh 'sudo su && dblab init --environment-id=staging --url=toto --token=eee --insecure'
                 sh "mkdir toto"
             }
         }
