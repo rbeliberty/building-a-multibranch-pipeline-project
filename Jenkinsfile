@@ -1,9 +1,7 @@
 
 pipeline {
     agent {
-        dockerfile {
-            label 'php-node'
-        }
+        dockerfile true
     }
     /*if (env.BRANCH_NAME.startsWith("PR-")) {
         echo "Deploying to Dev environment after build"
