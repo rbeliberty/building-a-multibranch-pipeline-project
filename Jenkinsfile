@@ -47,19 +47,24 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
                         echo "Deploying to Staging environment after build"
-                        sh './jenkins/scripts/init-dblab.sh staging $DBLAB_URL $DBLAB_TOKEN'
+                        env.ENV_CI = "staging"
+
                     } else if (env.BRANCH_NAME.startsWith("Release_")) {
                         echo "Deploying to preprod after build and Staging Deployment"
-                        sh './jenkins/scripts/init-dblab.sh preprod $DBLAB_URL $DBLAB_TOKEN'
+                        env.ENV_CI = "preprod"
+
                     } else if (env.BRANCH_NAME.startsWith("master")) {
                         echo "Deploying to PROD environment"
-                        sh './jenkins/scripts/init-dblab.sh prod $DBLAB_URL $DBLAB_TOKEN'
+                        env.ENV_CI = "prod"
                     }
                 }
+                 sh './jenkins/scripts/init-dblab.sh ${env.ENV_CI} $DBLAB_URL $DBLAB_TOKEN'
+
             }
         }
         stage('Check PGClone and get one') {
             steps {
+                echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = staging|preprod|prod"
                 sh './jenkins/scripts/pgclone.sh'
             }
         }
