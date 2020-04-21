@@ -20,7 +20,9 @@ pipeline {
         HOME = '.'
         DBLAB_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_TOKEN   = credentials('jenkins-dblab-stage-token')
+        PGUSER        = credentials('jenkins-pguser')
         PGPASSWORD    = credentials('jenkins-pgpassword')
+        PGDATABASE    = credentials('jenkins-pgdatabase')
     }
     stages {
         stage('Init Dblab') {
