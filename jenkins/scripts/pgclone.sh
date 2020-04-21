@@ -12,7 +12,6 @@
 ### Faire un clone avec l'ID du dernier snapshot
 ### Stocker en base l'association PR/branch + clone ID + Snapshot ID en base
 
-set -x
+
 dblab config list
 dblab snapshot list | jq .[]
-set +x
