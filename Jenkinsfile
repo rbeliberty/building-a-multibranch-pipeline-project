@@ -10,7 +10,7 @@ pipeline {
         HOME = '.'
         DBLAB_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_TOKEN   = credentials('jenkins-dblab-stage-token')
-        ENV_CI              = ""
+        ENV_CI        = ""
     }
     stages {
         stage('Get Env var') {

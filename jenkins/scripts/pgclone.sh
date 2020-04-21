@@ -14,4 +14,4 @@
 
 
 dblab config list
-dblab snapshot list | jq .[]
+dblab snapshot list | jq -r .[]
