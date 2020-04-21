@@ -16,8 +16,12 @@ BRANCH_NAME=$1
 REPO_NAME=$2
 ENV_CI=$3
 
-COMMAND="SELECT * FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
-psql -h 192.168.5.6 -c "${COMMAND}"
+COMMAND="SELECT clone_id FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
+psql -h 192.168.5.6 -c "${COMMAND}" | result
+
+echo "Result : ${result}"
+
+## si la commande SQL retourne une ligne, on utilise le clone_id
 
 dblab config list
 dblab config switch "${ENV_CI}"
