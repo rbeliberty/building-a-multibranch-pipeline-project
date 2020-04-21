@@ -17,7 +17,7 @@ REPO_NAME=$2
 ENV_CI=$3
 
 COMMAND="SELECT * associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
-result=$(psql -F ';' -X -A -t -h 192.168.5.6 -c "${COMMAND}")
+result=$(psql -X -A -t -h 192.168.5.6 -c "${COMMAND}")
 
 echo "Result : ${result}"
 
@@ -26,3 +26,4 @@ echo "Result : ${result}"
 dblab config list
 dblab config switch "${ENV_CI}"
 dblab snapshot list | jq  .[].id
+
