@@ -28,7 +28,7 @@ pipeline {
                 echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
                 echo 'CHANGE_TARGET : ' + env.CHANGE_TARGET
                 echo 'CHANGE_BRANCH : ' + env.CHANGE_BRANCH
-                echo 'BUILD_NUMBER : ' + env.BUILD_NUMBER
+                echo 'CHANGE_FORK : ' + env.CHANGE_FORK
                 echo 'BUILD_NUMBER : ' + env.BUILD_NUMBER
                 echo 'BUILD_ID : ' + env.BUILD_ID
                 echo 'BUILD_DISPLAY_NAME : ' + env.BUILD_DISPLAY_NAME
@@ -39,6 +39,7 @@ pipeline {
                 echo 'GIT_BRANCH : ' + env.GIT_BRANCH
                 echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
                 echo 'GIT_URL : ' + env.GIT_URL
+                echo 'GIT_COMMIT : ' + env.GIT_COMMIT
                 echo 'GIT_COMMITTER_NAME : ' + env.GIT_COMMITTER_NAME
                 echo 'GIT_AUTHOR_NAME : ' + env.GIT_AUTHOR_NAME
             }
