@@ -36,15 +36,17 @@ pipeline {
                 echo 'GIT_AUTHOR_NAME : ' + env.GIT_AUTHOR_NAME
                 sh "printenv"
 
-                if (env.BRANCH_NAME.startsWith("PR-")) {
-                    echo "Deploying to Staging environment after build"
-                    withEnv(["ENV_CI='staging'"])
-                } else if (env.BRANCH_NAME.startsWith("Release_")) {
-                    echo "Deploying to preprod after build and Staging Deployment"
-                    withEnv(["ENV_CI='preprod'"])
-                } else if (env.BRANCH_NAME.startsWith("master")) {
-                    echo "Deploying to PROD environment"
-                    withEnv(["ENV_CI='prod'"])
+                script {
+                    if (env.BRANCH_NAME.startsWith("PR-")) {
+                        echo "Deploying to Staging environment after build"
+                        withEnv(["ENV_CI='staging'"])
+                    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+                        echo "Deploying to preprod after build and Staging Deployment"
+                        withEnv(["ENV_CI='preprod'"])
+                    } else if (env.BRANCH_NAME.startsWith("master")) {
+                        echo "Deploying to PROD environment"
+                        withEnv(["ENV_CI='prod'"])
+                    }
                 }
             }
         }
