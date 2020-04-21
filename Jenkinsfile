@@ -21,7 +21,13 @@ pipeline {
         DBLAB_STAGE_TOKEN   = credentials('jenkins-dblab-stage-token')
     }
     stages {
-        stage(' Init dblab') {
+        stage('Get Env var') {
+            steps {
+                echo 'BRANCH_NAME ' + env.BRANCH_NAME
+                echo 'CHANGE_ID ' + env.CHANGE_ID
+            }
+        }
+        stage('Init dblab') {
             steps {
                 sh './jenkins/scripts/init-dblab.sh $DBLAB_STAGE_URL $DBLAB_STAGE_TOKEN'
             }
@@ -36,11 +42,7 @@ pipeline {
                 sh "echo 'Clone deployment with ID snapshot'"
             }
         }
-        stage('Check branch name') {
-            steps {
-                echo 'branch name ' + env.BRANCH_NAME
-            }
-        }
+
         stage('PG Connection Test') {
             steps {
                 sh 'echo ./jenkins/scripts/pg.sh'
