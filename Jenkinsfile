@@ -40,13 +40,11 @@ pipeline {
                 echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
                 echo 'GIT_URL : ' + env.GIT_URL
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
-
                 script {
                     allJob = env.JOB_NAME.tokenize('/') as String[];
                     REPO_NAME = allJob[0];
 
                 }
-                echo "REPO_NAME = $REPO_NAME"
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
                         echo "Deploying to Staging environment after build"
@@ -66,6 +64,7 @@ pipeline {
         }
         stage('Check PGClone and get one') {
             steps {
+                echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 sh './jenkins/scripts/pgclone.sh'
             }
@@ -75,7 +74,6 @@ pipeline {
                 sh "echo 'Clone deployment with ID snapshot'"
             }
         }
-
         stage('PG Connection Test') {
             steps {
                 sh 'echo ./jenkins/scripts/pg.sh'
