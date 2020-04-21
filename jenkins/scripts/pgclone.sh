@@ -19,11 +19,19 @@ ENV_CI=$3
 COMMAND="SELECT * FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
 result=$(psql -X -A -t -h 192.168.5.6 -c "${COMMAND}")
 
-echo "Result : ${result}"
+if [ -z "$result" ]
+then
+  echo "\$result is NULL"
+  echo "Create a Clone"
+  ## si la commande SQL retourne une ligne, on utilise le clone_id
 
-## si la commande SQL retourne une ligne, on utilise le clone_id
+  dblab config list
+  dblab config switch "${ENV_CI}"
+  dblab snapshot list | jq  .[].id
+else
+  echo "\$result is NOT NULL"
+  echo "Result : ${result}"
+fi
 
-dblab config list
-dblab config switch "${ENV_CI}"
-dblab snapshot list | jq  .[].id
+
 
