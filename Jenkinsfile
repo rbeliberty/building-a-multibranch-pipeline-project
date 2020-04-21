@@ -46,10 +46,7 @@ pipeline {
                 script {
                     allJob = env.JOB_NAME.tokenize('/') as String[];
                     REPO_NAME = allJob[0];
-                    branchName = getCurrentBranch()
-
                 }
-                echo 'branchName : ' + $branchName
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
                         echo "Deploying to Staging environment after build"
