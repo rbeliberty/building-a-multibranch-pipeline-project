@@ -47,7 +47,7 @@ pipeline {
                 }
             }
         }
-        stage
+
         stage('Init dblab') {
             steps {
                 sh './jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN'
