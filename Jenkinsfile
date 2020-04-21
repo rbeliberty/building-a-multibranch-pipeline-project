@@ -32,27 +32,22 @@ pipeline {
                 echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
                 echo 'GIT_URL : ' + env.GIT_URL
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
-                echo 'GIT_COMMITTER_NAME : ' + env.GIT_COMMITTER_NAME
-                echo 'GIT_AUTHOR_NAME : ' + env.GIT_AUTHOR_NAME
-                sh "printenv"
 
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
-                        withEnv(["ENV_CI='staging'"]) {
-                            echo "Deploying to Staging environment after build"
-                        }
+                        echo "Deploying to Staging environment after build"
+                        env.ENV_CI = "staging"
                     } else if (env.BRANCH_NAME.startsWith("Release_")) {
-                        withEnv(["ENV_CI='preprod'"]) {
-                            echo "Deploying to preprod after build and Staging Deployment"
-                        }
+                        echo "Deploying to preprod after build and Staging Deployment"
+                        env.ENV_CI = "preprod"
                     } else if (env.BRANCH_NAME.startsWith("master")) {
-                        withEnv(["ENV_CI='prod'"]) {
-                            echo "Deploying to PROD environment"
-                        }
+                        echo "Deploying to PROD environment"
+                        env.ENV_CI = "prod"
                     }
                 }
             }
         }
+        stage
         stage('Init dblab') {
             steps {
                 sh './jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN'
