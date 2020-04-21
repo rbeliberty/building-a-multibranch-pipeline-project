@@ -58,7 +58,7 @@ pipeline {
                         env.ENV_CI = "prod"
                     }
                 }
-                 sh './jenkins/scripts/init-dblab.sh ${env.ENV_CI} $DBLAB_URL $DBLAB_TOKEN'
+                 sh './jenkins/scripts/init-dblab.sh $env.ENV_CI $DBLAB_URL $DBLAB_TOKEN'
 
             }
         }
