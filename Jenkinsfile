@@ -23,8 +23,9 @@ pipeline {
     stages {
         stage('Get Env var') {
             steps {
-                echo 'BRANCH_NAME ' + env.BRANCH_NAME
-                echo 'CHANGE_ID ' + env.CHANGE_ID
+                echo 'BRANCH_NAME : ' + env.BRANCH_NAME
+                echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
+                echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
             }
         }
         stage('Init dblab') {
