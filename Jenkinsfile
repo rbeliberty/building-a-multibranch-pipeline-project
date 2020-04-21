@@ -20,6 +20,7 @@ pipeline {
         HOME = '.'
         DBLAB_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_TOKEN   = credentials('jenkins-dblab-stage-token')
+        PGPASSWORD    = credentials('jenkins-pgpassword')
     }
     stages {
         stage('Init Dblab') {
@@ -66,7 +67,7 @@ pipeline {
             steps {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
-                sh './jenkins/scripts/pgclone.sh'
+                sh "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI"
             }
         }
         stage('Clone a DB snapshot') {

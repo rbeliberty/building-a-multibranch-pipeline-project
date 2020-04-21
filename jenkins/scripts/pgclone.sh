@@ -12,7 +12,13 @@
 ### Faire un clone avec l'ID du dernier snapshot
 ### Stocker en base l'association PR/branch + clone ID + Snapshot ID en base
 
+BRANCH_NAME=$1
+REPO_NAME=$2
+ENV_CI=$3
 
+COMMAND="SELECT * FROM associations WHERE branch_name=${BRANCH_NAME} AND repo_name=${REPO_NAME}"
+psql -h 192.168.5.6 -U vagrant pgclone -c "${COMMAND}"
 
 dblab config list
+dblab config switch "${ENV_CI}"
 dblab snapshot list | jq  .[].id
