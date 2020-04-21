@@ -47,18 +47,18 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
                         echo "Deploying to Staging environment after build"
-                        env.ENV_CI = "staging"
+                        ENV_CI = "staging"
 
                     } else if (env.BRANCH_NAME.startsWith("Release_")) {
                         echo "Deploying to preprod after build and Staging Deployment"
-                        env.ENV_CI = "preprod"
+                        ENV_CI = "preprod"
 
                     } else if (env.BRANCH_NAME.startsWith("master")) {
                         echo "Deploying to PROD environment"
-                        env.ENV_CI = "prod"
+                        ENV_CI = "prod"
                     }
                 }
-                 sh './jenkins/scripts/init-dblab.sh $env.ENV_CI $DBLAB_URL $DBLAB_TOKEN'
+                sh './jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN'
 
             }
         }
