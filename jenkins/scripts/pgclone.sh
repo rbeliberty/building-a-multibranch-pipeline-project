@@ -16,8 +16,8 @@ BRANCH_NAME=$1
 REPO_NAME=$2
 ENV_CI=$3
 
-COMMAND="SELECT id, clone_id FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
-result=$(psql -X -A -t -h 192.168.5.6 -c "${COMMAND}")
+COMMAND="SELECT * associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
+result=$(psql -F ';' -X -A -t -h 192.168.5.6 -c "${COMMAND}")
 
 echo "Result : ${result}"
 
