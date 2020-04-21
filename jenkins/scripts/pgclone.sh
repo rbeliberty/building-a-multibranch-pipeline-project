@@ -15,5 +15,5 @@
 set -x
 dblab config list
 
-dblab snapshot list | jq
+dblab snapshot list
 set +x
