@@ -11,6 +11,7 @@
     }
 } */
 
+def ENV_CI = "test"
 pipeline {
     agent {
         dockerfile true
@@ -22,14 +23,13 @@ pipeline {
         HOME = '.'
         DBLAB_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_TOKEN   = credentials('jenkins-dblab-stage-token')
-        ENV_CI        = "test"
     }
     stages {
         stage('Get Env var') {
             stages {
                 stage('display env var') {
                     steps {
-                        echo 'ENV_CI : ' + env.ENV_CI
+                        echo 'ENV_CI : ' + ${ENV_CI}
                         echo 'BRANCH_NAME : ' + env.BRANCH_NAME
                         echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
                         echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
@@ -49,13 +49,16 @@ pipeline {
                     }
                 }
                 stage('Check staging'){
-                    when {
-                        expression { BRANCH_NAME ==~ /PR-\d+/ }
-                    }
-                    steps {
-                        echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = test"
-                        withEnv(["ENV_CI='staging'"]) { // it can override any env variable
-                            echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = staging"
+                    script {
+                        if (env.BRANCH_NAME.startsWith("PR-")) {
+                            echo "Deploying to Staging environment after build"
+                            ${ENV_CI} = "staging"
+                        } else if (env.BRANCH_NAME.startsWith("Release_")) {
+                            echo "Deploying to preprod after build and Staging Deployment"
+                            ${ENV_CI} = "preprod"
+                        } else if (env.BRANCH_NAME.startsWith("master")) {
+                            echo "Deploying to PROD environment"
+                            ${ENV_CI} = "prod"
                         }
                     }
                 }
@@ -63,7 +66,7 @@ pipeline {
         }
         stage('Init dblab') {
             steps {
-                sh './jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN'
+                sh './jenkins/scripts/init-dblab.sh ${ENV_CI} $DBLAB_URL $DBLAB_TOKEN'
             }
         }
         stage('Check PGClone and get one') {
