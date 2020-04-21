@@ -38,14 +38,17 @@ pipeline {
 
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
-                        echo "Deploying to Staging environment after build"
-                        withEnv(["ENV_CI='staging'"])
+                        withEnv(["ENV_CI='staging'"]) {
+                            echo "Deploying to Staging environment after build"
+                        }
                     } else if (env.BRANCH_NAME.startsWith("Release_")) {
-                        echo "Deploying to preprod after build and Staging Deployment"
-                        withEnv(["ENV_CI='preprod'"])
+                        withEnv(["ENV_CI='preprod'"]) {
+                            echo "Deploying to preprod after build and Staging Deployment"
+                        }
                     } else if (env.BRANCH_NAME.startsWith("master")) {
-                        echo "Deploying to PROD environment"
-                        withEnv(["ENV_CI='prod'"])
+                        withEnv(["ENV_CI='prod'"]) {
+                            echo "Deploying to PROD environment"
+                        }
                     }
                 }
             }
