@@ -40,27 +40,28 @@ pipeline {
                 echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
                 echo 'GIT_URL : ' + env.GIT_URL
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
-            }
-            script {
-                allJob = env.JOB_NAME.tokenize('/') as String[];
-                REPO_NAME = allJob[0];
-                echo 'REPO_NAME : ' + $REPO_NAME
-            }
-            script {
-                if (env.BRANCH_NAME.startsWith("PR-")) {
-                    echo "Deploying to Staging environment after build"
-                    ENV_CI = "staging"
 
-                } else if (env.BRANCH_NAME.startsWith("Release_")) {
-                    echo "Deploying to preprod after build and Staging Deployment"
-                    ENV_CI = "preprod"
-
-                } else if (env.BRANCH_NAME.startsWith("master")) {
-                    echo "Deploying to PROD environment"
-                    ENV_CI = "prod"
+                script {
+                    allJob = env.JOB_NAME.tokenize('/') as String[];
+                    REPO_NAME = allJob[0];
+                    echo 'REPO_NAME : ' + $REPO_NAME
                 }
+                script {
+                    if (env.BRANCH_NAME.startsWith("PR-")) {
+                        echo "Deploying to Staging environment after build"
+                        ENV_CI = "staging"
+
+                    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+                        echo "Deploying to preprod after build and Staging Deployment"
+                        ENV_CI = "preprod"
+
+                    } else if (env.BRANCH_NAME.startsWith("master")) {
+                        echo "Deploying to PROD environment"
+                        ENV_CI = "prod"
+                    }
+                }
+                sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
             }
-            sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
         }
         stage('Check PGClone and get one') {
             steps {
