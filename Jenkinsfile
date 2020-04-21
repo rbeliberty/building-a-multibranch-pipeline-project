@@ -33,7 +33,7 @@ pipeline {
                 echo 'GIT_URL : ' + env.GIT_URL
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
 
-                script {
+                /* script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
                         echo "Deploying to Staging environment after build"
                         env.ENV_CI = "staging"
@@ -44,6 +44,17 @@ pipeline {
                         echo "Deploying to PROD environment"
                         env.ENV_CI = "prod"
                     }
+                } */
+            }
+        }
+        stage('Check staging'){
+            when {
+                expression { BRANCH_NAME ==~ /PR-\d+/ }
+            }
+            steps {
+                echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = test"
+                withEnv(["ENV_CI='staging'"]) { // it can override any env variable
+                    echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = staging"
                 }
             }
         }
