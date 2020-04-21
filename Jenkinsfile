@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Check PGClone and get one') {
             steps {
-                echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = staging|preprod|prod"
+                echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 sh './jenkins/scripts/pgclone.sh'
             }
         }
