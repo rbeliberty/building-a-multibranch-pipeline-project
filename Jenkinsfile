@@ -42,6 +42,7 @@ pipeline {
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
                 echo 'GIT_COMMITTER_NAME : ' + env.GIT_COMMITTER_NAME
                 echo 'GIT_AUTHOR_NAME : ' + env.GIT_AUTHOR_NAME
+                sh "printenv"
             }
         }
         stage('Init dblab') {
