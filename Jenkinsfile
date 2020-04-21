@@ -35,7 +35,6 @@ pipeline {
                 echo 'JOB_NAME : ' + env.JOB_NAME
                 echo 'JOB_BASE_NAME : ' + env.JOB_BASE_NAME
                 echo 'BUILD_TAG : ' + env.BUILD_TAG
-                echo 'JOB_NAME : ' + env.JOB_NAME
                 echo 'GIT_BRANCH : ' + env.GIT_BRANCH
                 echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
                 echo 'GIT_URL : ' + env.GIT_URL
