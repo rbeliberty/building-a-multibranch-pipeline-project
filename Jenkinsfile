@@ -24,7 +24,6 @@ pipeline {
     stages {
         stage('Get Env var') {
             steps {
-                echo 'ENV_CI : ' + ${ENV_CI}
                 echo 'BRANCH_NAME : ' + env.BRANCH_NAME
                 echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
                 echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
