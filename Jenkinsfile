@@ -1,3 +1,15 @@
+/* script {
+    if (env.BRANCH_NAME.startsWith("PR-")) {
+        echo "Deploying to Staging environment after build"
+        env.ENV_CI = "staging"
+    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+        echo "Deploying to preprod after build and Staging Deployment"
+        env.ENV_CI = "preprod"
+    } else if (env.BRANCH_NAME.startsWith("master")) {
+        echo "Deploying to PROD environment"
+        env.ENV_CI = "prod"
+    }
+} */
 
 pipeline {
     agent {
@@ -14,51 +26,41 @@ pipeline {
     }
     stages {
         stage('Get Env var') {
-            steps {
-                echo 'ENV_CI : ' + env.ENV_CI
-                echo 'BRANCH_NAME : ' + env.BRANCH_NAME
-                echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
-                echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
-                echo 'CHANGE_TARGET : ' + env.CHANGE_TARGET
-                echo 'CHANGE_BRANCH : ' + env.CHANGE_BRANCH
-                echo 'CHANGE_FORK : ' + env.CHANGE_FORK
-                echo 'BUILD_NUMBER : ' + env.BUILD_NUMBER
-                echo 'BUILD_ID : ' + env.BUILD_ID
-                echo 'BUILD_DISPLAY_NAME : ' + env.BUILD_DISPLAY_NAME
-                echo 'JOB_NAME : ' + env.JOB_NAME
-                echo 'JOB_BASE_NAME : ' + env.JOB_BASE_NAME
-                echo 'BUILD_TAG : ' + env.BUILD_TAG
-                echo 'GIT_BRANCH : ' + env.GIT_BRANCH
-                echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
-                echo 'GIT_URL : ' + env.GIT_URL
-                echo 'GIT_COMMIT : ' + env.GIT_COMMIT
-
-                /* script {
-                    if (env.BRANCH_NAME.startsWith("PR-")) {
-                        echo "Deploying to Staging environment after build"
-                        env.ENV_CI = "staging"
-                    } else if (env.BRANCH_NAME.startsWith("Release_")) {
-                        echo "Deploying to preprod after build and Staging Deployment"
-                        env.ENV_CI = "preprod"
-                    } else if (env.BRANCH_NAME.startsWith("master")) {
-                        echo "Deploying to PROD environment"
-                        env.ENV_CI = "prod"
+            stages {
+                stage('display env var') {
+                    steps {
+                        echo 'ENV_CI : ' + env.ENV_CI
+                        echo 'BRANCH_NAME : ' + env.BRANCH_NAME
+                        echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
+                        echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
+                        echo 'CHANGE_TARGET : ' + env.CHANGE_TARGET
+                        echo 'CHANGE_BRANCH : ' + env.CHANGE_BRANCH
+                        echo 'CHANGE_FORK : ' + env.CHANGE_FORK
+                        echo 'BUILD_NUMBER : ' + env.BUILD_NUMBER
+                        echo 'BUILD_ID : ' + env.BUILD_ID
+                        echo 'BUILD_DISPLAY_NAME : ' + env.BUILD_DISPLAY_NAME
+                        echo 'JOB_NAME : ' + env.JOB_NAME
+                        echo 'JOB_BASE_NAME : ' + env.JOB_BASE_NAME
+                        echo 'BUILD_TAG : ' + env.BUILD_TAG
+                        echo 'GIT_BRANCH : ' + env.GIT_BRANCH
+                        echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
+                        echo 'GIT_URL : ' + env.GIT_URL
+                        echo 'GIT_COMMIT : ' + env.GIT_COMMIT
                     }
-                } */
-            }
-        }
-        stage('Check staging'){
-            when {
-                expression { BRANCH_NAME ==~ /PR-\d+/ }
-            }
-            steps {
-                echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = test"
-                withEnv(["ENV_CI='staging'"]) { // it can override any env variable
-                    echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = staging"
+                }
+                stage('Check staging'){
+                    when {
+                        expression { BRANCH_NAME ==~ /PR-\d+/ }
+                    }
+                    steps {
+                        echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = test"
+                        withEnv(["ENV_CI='staging'"]) { // it can override any env variable
+                            echo "ENV_CI = ${env.ENV_CI}" // prints "ENV_CI = staging"
+                        }
+                    }
                 }
             }
         }
-
         stage('Init dblab') {
             steps {
                 sh './jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN'
