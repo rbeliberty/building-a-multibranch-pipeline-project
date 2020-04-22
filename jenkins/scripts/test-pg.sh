@@ -23,7 +23,7 @@ echo "CREATE_AT : $CREATE_AT"
 echo "REPO_NAME : $REPO_NAME"
 echo "PORT : $PORT"
 
-PGPASSWORD="aq"
+PGPASSWORD="${CHANGE_AUTHOR}"
 psql -h pgclone.awstack -p "${PORT}" -U "${CHANGE_AUTHOR}" cfgmanager_dev -c "\l"
 
 
