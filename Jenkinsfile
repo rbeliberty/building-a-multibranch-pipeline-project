@@ -64,7 +64,7 @@ pipeline {
                 sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
             }
         }
-        stage('Check PGClone and get one') {
+        stage('Check PGClone') {
             steps {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
@@ -72,13 +72,28 @@ pipeline {
             }
         }
         stage('Clone a DB snapshot') {
+            when {
+                expression {
+                    return env.RESULT = false
+                }
+            }
             steps {
                 sh "echo 'Clone deployment with ID snapshot'"
             }
         }
-        stage('PG Connection Test') {
+        stage('Get a current clone') {
+            when {
+                expression {
+                    return env.RESULT != false
+                }
+            }
             steps {
-                sh 'echo ./jenkins/scripts/pg.sh'
+                sh "echo 'Use a current clone'"
+            }
+        }
+        stage('PG Clone Connection Test') {
+            steps {
+                sh 'echo ./jenkins/scripts/test-pg.sh $RESULT'
             }
         }
         stage('Backup association PGClone') {

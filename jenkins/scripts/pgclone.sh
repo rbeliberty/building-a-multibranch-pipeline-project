@@ -21,16 +21,21 @@ result=$(psql -X -A -t -h 192.168.5.6 -c "${COMMAND}")
 
 if [ -z "$result" ]
 then
-  echo "\$result is NULL"
-  echo "Create a Clone"
+  #echo "\$result is NULL"
+  #echo "Create a Clone"
   ## si la commande SQL retourne une ligne, on utilise le clone_id
 
-  dblab config list
-  dblab config switch "${ENV_CI}"
-  dblab snapshot list | jq  .[].id
+  #dblab config list
+  #dblab config switch "${ENV_CI}"
+  #dblab snapshot list | jq  .[].id
+
+  # on doit choisir dblab_pool@xx-$ENV_CI en fonction de la date
+  export RESULT=false
 else
-  echo "\$result is NOT NULL"
-  echo "Result : ${result}"
+  #echo "\$result is NOT NULL"
+  export RESULT="${result}"
+  # si on récupère les var pour créer les paramètres de connexion
+
 fi
 
 
