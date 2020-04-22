@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-echo $1
+echo "$1"
 
 #1|dblab_pool@14-staging|building-a-multibranch-pipeline-project_PR-5|rbeliberty|PR-5|dev|feature/add-test|2020-04-02|building-a-multibranch-pipeline-project
 
