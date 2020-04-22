@@ -93,7 +93,7 @@ pipeline {
         }
         stage('PG Clone Connection Test') {
             steps {
-                sh 'echo ./jenkins/scripts/test-pg.sh $RESULT'
+                sh "./jenkins/scripts/test-pg.sh $RESULT"
             }
         }
         stage('Backup association PGClone') {
