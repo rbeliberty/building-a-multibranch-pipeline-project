@@ -77,8 +77,7 @@ pipeline {
         }
         stage('Clone a DB snapshot') {
             when {
-                $RESULT = false
-
+                expression{$RESULT == false}
             }
             steps {
                 sh "echo 'Clone deployment with ID snapshot'"
@@ -86,8 +85,7 @@ pipeline {
         }
         stage('Get a current clone') {
             when {
-                $RESULT != false
-
+                expression{$RESULT != false}
             }
             steps {
                 sh "echo 'Use a current clone'"
