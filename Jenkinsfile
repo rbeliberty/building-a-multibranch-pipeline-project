@@ -72,7 +72,11 @@ pipeline {
                     RESULT = sh(script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI", returnStdout: true).trim() as String
                     echo "$RESULT"
                 }
-
+            }
+        }
+        stage('Check RESULT') {
+            steps {
+                echo "result : $R$RESULT"
             }
         }
         stage('Clone a DB snapshot') {
