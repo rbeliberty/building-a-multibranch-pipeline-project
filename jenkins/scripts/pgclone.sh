@@ -30,10 +30,10 @@ then
   #dblab snapshot list | jq  .[].id
 
   # on doit choisir dblab_pool@xx-$ENV_CI en fonction de la date
-  export RESULT=false
+  echo RESULT=false
 else
   #echo "\$result is NOT NULL"
-  export RESULT="${result}"
+  echo RESULT="${result}"
   # si on récupère les var pour créer les paramètres de connexion
 
 fi
