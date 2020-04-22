@@ -85,14 +85,6 @@ pipeline {
                 sh "echo 'Clone deployment with ID snapshot'"
             }
         }
-        stage('Get a current clone') {
-            when {
-                expression { RESULT != "vide" }
-            }
-            steps {
-                sh "echo 'Use a current clone'"
-            }
-        }
         stage('PG Clone Connection Test') {
             steps {
 
