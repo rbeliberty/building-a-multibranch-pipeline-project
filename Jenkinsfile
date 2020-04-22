@@ -97,7 +97,7 @@ pipeline {
         }
         stage('PG Clone Connection Test') {
             steps {
-                echo
+
                 sh "./jenkins/scripts/test-pg.sh " + env.RESULT
             }
         }
