@@ -1,6 +1,24 @@
 #!/usr/bin/env sh
 
-echo "$1"
+ASSOCIATION_ID=$1
+SNAPSHOT_ID=$2
+CLONE_ID=$3
+CHANGE_AUTHOR=$4
+BRANCH_NAME=$5
+CHANGE_TARGET=$6
+CHANGE_BRANCH=$7
+CREATE_AT=$8
+REPO_NAME=9
+
+echo "ASSOCIATION_ID : $ASSOCIATION_ID"
+echo "SNAPSHOT_ID : $SNAPSHOT_ID"
+echo "CLONE_ID : $CLONE_ID"
+echo "CHANGE_AUTHOR : $CHANGE_AUTHOR"
+echo "BRANCH_NAME : $BRANCH_NAME"
+echo "CHANGE_TARGET : $CHANGE_TARGET"
+echo "CHANGE_BRANCH : $CHANGE_BRANCH"
+echo "CREATE_AT : $CREATE_AT"
+echo "REPO_NAME : $REPO_NAME"
 
 #1|dblab_pool@14-staging|building-a-multibranch-pipeline-project_PR-5|rbeliberty|PR-5|dev|feature/add-test|2020-04-02|building-a-multibranch-pipeline-project
 
