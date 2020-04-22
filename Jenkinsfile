@@ -77,7 +77,7 @@ pipeline {
         }
         stage('Check RESULT') {
             steps {
-                echo "result : $R$RESULT"
+                echo "result : $RESULT"
             }
         }
         stage('Clone a DB snapshot') {
