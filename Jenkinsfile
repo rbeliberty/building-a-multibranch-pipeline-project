@@ -77,11 +77,6 @@ pipeline {
                 echo "RESULT = $RESULT"
             }
         }
-        stage('Check RESULT') {
-            steps {
-                echo "result : $RESULT"
-            }
-        }
         stage('Clone a DB snapshot') {
             when {
                expression { RESULT == "vide" }
