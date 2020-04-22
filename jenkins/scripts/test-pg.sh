@@ -23,6 +23,9 @@ echo "CREATE_AT : $CREATE_AT"
 echo "REPO_NAME : $REPO_NAME"
 echo "PORT : $PORT"
 
+PGPASSWORD="${CHANGE_AUTHOR}"
+psql -h pgclone.awstack -p "${PORT}" -U "${CHANGE_AUTHOR}" cfgmanager_dev -c "\dt"
+
 #1|dblab_pool@14-staging|building-a-multibranch-pipeline-project_PR-5|rbeliberty|PR-5|dev|feature/add-test|2020-04-02|building-a-multibranch-pipeline-project
 
 #IFS=| read id snapshot_id clone_id change_author branch_name change_target change_branch created_at repo_name <<< $1
