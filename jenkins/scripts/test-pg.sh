@@ -4,10 +4,10 @@ echo $1
 
 #1|dblab_pool@14-staging|building-a-multibranch-pipeline-project_PR-5|rbeliberty|PR-5|dev|feature/add-test|2020-04-02|building-a-multibranch-pipeline-project
 
-IFS=| read id snapshot_id clone_id change_author branch_name change_target change_branch created_at repo_name <<< $1
+#IFS=| read id snapshot_id clone_id change_author branch_name change_target change_branch created_at repo_name <<< $1
 
-echo $id
-echo $snapshot_id
+ #echo $id
+#echo $snapshot_id
 
 #HOST_DB=$1
 #USER_DB=$2
