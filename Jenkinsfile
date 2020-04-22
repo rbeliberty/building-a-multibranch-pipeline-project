@@ -68,7 +68,11 @@ pipeline {
             steps {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
-                sh "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI"
+                script {
+                    def result = sh(script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI", returnStdout: true).trim() as String
+                    println("result = ${result}")
+                }
+
             }
         }
         stage('Clone a DB snapshot') {
@@ -93,7 +97,8 @@ pipeline {
         }
         stage('PG Clone Connection Test') {
             steps {
-                sh "./jenkins/scripts/test-pg.sh" + env.RESULT
+                echo
+                sh "./jenkins/scripts/test-pg.sh " + env.RESULT
             }
         }
         stage('Backup association PGClone') {
