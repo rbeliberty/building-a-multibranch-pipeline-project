@@ -69,8 +69,10 @@ pipeline {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
-                    RESULT = sh(script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI", returnStdout: true).trim().String
-
+                    RESULT = sh(
+                        script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
+                        returnStdout: true
+                    ).trim()
                 }
                 echo "RESULT = $RESULT"
             }
