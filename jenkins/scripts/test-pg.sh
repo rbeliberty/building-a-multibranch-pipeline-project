@@ -26,6 +26,7 @@ echo "PORT : $PORT"
 PGPASSWORD="aq"
 PSQL=$(psql -h pgclone.awstack -p "${PORT}" -U "${CHANGE_AUTHOR}" cfgmanager_dev -c "\l")
 
+echo "ON_ERROR_STOP : ${ON_ERROR_STOP}"
 echo "${PSQL}"
 
 #1|dblab_pool@14-staging|building-a-multibranch-pipeline-project_PR-5|rbeliberty|PR-5|dev|feature/add-test|2020-04-02|building-a-multibranch-pipeline-project
