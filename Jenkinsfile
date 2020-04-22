@@ -78,7 +78,7 @@ pipeline {
         stage('Clone a DB snapshot') {
             when {
                 expression {
-                    return env.RESULT = false
+                    return $RESULT = false
                 }
             }
             steps {
@@ -88,7 +88,7 @@ pipeline {
         stage('Get a current clone') {
             when {
                 expression {
-                    return env.RESULT != false
+                    return $RESULT != false
                 }
             }
             steps {
@@ -98,7 +98,7 @@ pipeline {
         stage('PG Clone Connection Test') {
             steps {
 
-                sh "./jenkins/scripts/test-pg.sh " + env.RESULT
+                sh "./jenkins/scripts/test-pg.sh $RESULT"
             }
         }
         stage('Backup association PGClone') {
