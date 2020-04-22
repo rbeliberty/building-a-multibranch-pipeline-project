@@ -24,7 +24,7 @@ echo "REPO_NAME : $REPO_NAME"
 echo "PORT : $PORT"
 
 PGPASSWORD="aq"
-PSQL=$(psql -h pgclone.awstack -p "${PORT}" -U "${CHANGE_AUTHOR}" cfgmanager_dev -c "\l")
+PSQL=$(psql -v ON_ERROR_STOP=ON -h pgclone.awstack -p "${PORT}" -U "${CHANGE_AUTHOR}" cfgmanager_dev -c "\l")
 
 echo "ON_ERROR_STOP : ${ON_ERROR_STOP}"
 echo "${PSQL}"
