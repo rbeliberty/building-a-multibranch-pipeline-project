@@ -69,7 +69,7 @@ pipeline {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
-                    RESULT = sh(script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI", returnStdout: true).trim()
+                    RESULT = sh(script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI", returnStdout: true).trim().string
 
                 }
                 echo "RESULT = $RESULT"
@@ -82,7 +82,7 @@ pipeline {
         }
         stage('Clone a DB snapshot') {
             when {
-                expression{$RESULT == false}
+                expression{$RESULT == "false"}
             }
             steps {
                 sh "echo 'Clone deployment with ID snapshot'"
@@ -90,7 +90,7 @@ pipeline {
         }
         stage('Get a current clone') {
             when {
-                expression{$RESULT != false}
+                expression{$RESULT != "false"}
             }
             steps {
                 sh "echo 'Use a current clone'"

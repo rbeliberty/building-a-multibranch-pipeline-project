@@ -30,7 +30,7 @@ then
   #dblab snapshot list | jq  .[].id
 
   # on doit choisir dblab_pool@xx-$ENV_CI en fonction de la date
-  echo false
+  echo "false"
 else
   #echo "\$result is NOT NULL"
   echo "${result}"
