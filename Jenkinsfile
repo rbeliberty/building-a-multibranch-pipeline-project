@@ -100,6 +100,9 @@ pipeline {
             }
         }
         stage('Backup association PGClone') {
+            when {
+               expression { RESULT == "vide" }
+            }
             steps {
                 sh 'echo ./jenkins/scripts/backup.sh'
             }
