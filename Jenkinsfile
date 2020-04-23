@@ -100,7 +100,9 @@ pipeline {
                     ).trim()
                 }
                 echo "JQ_RESULT = $JQ_RESULT"
-                RESULT = "    $CHANGE_AUTHOR    $JQ_RESULT"
+                script {
+                    RESULT = "    $CHANGE_AUTHOR    $JQ_RESULT"
+                }
             }
         }
         stage('PG Clone Connection Test') {
