@@ -65,7 +65,7 @@ pipeline {
                 sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
             }
         }
-        stage('Check Association PGClone/PR') {
+        stage('Check Association PGClone/PR & Connection Test') {
             steps {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "CLONE_ID = $CLONE_ID"
@@ -77,9 +77,11 @@ pipeline {
                     ).trim()
                 }
                 echo "RESULT = $RESULT"
+                // Attention RESULT contient plusieurs strings séparés par un espace
+                sh "./jenkins/scripts/test-pg.sh $RESULT"
             }
         }
-        stage('Clone a DB snapshot') {
+        stage('Clone a DB snapshot & Connection Test') {
             when {
                expression { RESULT == "" }
             }
@@ -93,14 +95,16 @@ pipeline {
                     ).trim()
                 }
                 echo "RESULT_MAKE_CLONE = $RESULT_MAKE_CLONE"
-            }
-        }
-        stage('PG Clone Connection Test') {
-            steps {
-                // Attention RESULT contient plusieurs strings séparés par un espace
+                script {
+                    JQ = sh(
+                        script: "./jenkins/scripts/jq-clone.sh $RESULT_MAKE_CLONE",
+                        returnStdout: true
+                    ).trim()
+                }
                 sh "./jenkins/scripts/test-pg.sh $RESULT"
             }
         }
+
         stage('Backup association PGClone') {
             when {
                expression { RESULT == "" }
