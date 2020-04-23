@@ -47,6 +47,7 @@ pipeline {
                     allJob = env.JOB_NAME.tokenize('/') as String[];
                     REPO_NAME = allJob[0];
                     CLONE_ID = allJob[0] + '_' + allJob[1]
+                    NEW_CLONE = 0
                 }
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
@@ -103,6 +104,7 @@ pipeline {
                 script {
                     //trick RESULT = "x x x $CHANGE_AUTHOR x x x x x $CLONE_PORT"
                     RESULT = "$CHANGE_AUTHOR $CLONE_PORT"
+                    NEW_CLONE = 1
                 }
             }
         }
@@ -114,11 +116,15 @@ pipeline {
         }
         stage('Backup association PGClone') {
             when {
-               expression { RESULT == "" }
+               expression { NEW_CLONE == 1 }
             }
-            steps {
-                sh 'echo ./jenkins/scripts/insert-association.sh'
+            script {
+                INSERT_ASSOCIATION = sh(
+                    script: "./jenkins/scripts/jq-association.sh $CLONE_ID",
+                    returnStdout: true
+                ).trim()
             }
+            echo "INSERT_ASSOCIATION : $INSERT_ASSOCIATION"
         }
         stage('Deliver for PR in Staging'){
             when {
