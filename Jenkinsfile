@@ -92,17 +92,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
                 }
-                echo "CLONE_JSON = $CLONE_JSON"
-                script {
-                    JQ_PORT = sh(
-                        script: "echo $CLONE_JSON | jq -r '.db.port'",
-                        returnStdout: true
-                    ).trim()
-                }
-                echo "JQ_PORT = $JQ_PORT"
-                script {
-                    RESULT = "    $CHANGE_AUTHOR    $JQ_PORT"
-                }
+
             }
         }
         stage('PG Clone Connection Test') {
