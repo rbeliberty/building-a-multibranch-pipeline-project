@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-REPO_NAME=$1
+CLONE_ID=$1
 ENV_CI=$2
 echo $ENV_CI
 
