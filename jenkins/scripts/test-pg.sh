@@ -5,6 +5,8 @@
  #jq --raw-output '.[] | select (.id | contains("staging"))'
  # commande de malade : jq --raw-output '[.[] | select (.id | contains("staging"))][0].id'
 
+printenv
+
 CHANGE_AUTHOR="${4}"
 PORT="${10}"
 
