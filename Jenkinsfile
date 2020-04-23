@@ -72,7 +72,7 @@ pipeline {
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
                     RESULT = sh(
-                        script: "./jenkins/scripts/check_association.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
+                        script: "./jenkins/scripts/check-association.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
                         returnStdout: true
                     ).trim()
                 }
@@ -88,7 +88,7 @@ pipeline {
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
                     RESULT_MAKE_CLONE = sh(
-                        script: "./jenkins/scripts/make_clone.sh $CLONE_ID $ENV_CI",
+                        script: "./jenkins/scripts/make-clone.sh $CLONE_ID $ENV_CI",
                         returnStdout: true
                     ).trim()
                 }
@@ -97,7 +97,7 @@ pipeline {
         }
         stage('PG Clone Connection Test') {
             steps {
-
+                // Attention RESULT contient plusieurs strings séparés par un espace
                 sh "./jenkins/scripts/test-pg.sh $RESULT"
             }
         }
@@ -106,7 +106,7 @@ pipeline {
                expression { RESULT == "" }
             }
             steps {
-                sh 'echo ./jenkins/scripts/backup.sh'
+                sh 'echo ./jenkins/scripts/insert-association.sh'
             }
         }
         stage('Deliver for PR in Staging'){
