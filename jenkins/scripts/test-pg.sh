@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
-## .[] | select (.id=="pr-1234") | .db.port
+## '.[] | select (.id=="pr-1234") | .db.port'
+# dblab snapshot list | jq --raw-output '.[] | select (.id=="dblab_pool@17-staging") | .createdAt'
+ #dblab snapshot list | jq --raw-output '.[].createdAt'
+ #jq --raw-output '.[] | select (.id | contains("staging"))'
 
 ASSOCIATION_ID="${1}"
 SNAPSHOT_ID="${2}"
