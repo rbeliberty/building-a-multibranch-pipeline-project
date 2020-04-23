@@ -78,7 +78,11 @@ pipeline {
                 }
                 echo "RESULT = $RESULT"
                 // Attention RESULT contient plusieurs strings séparés par un espace
-                sh "./jenkins/scripts/test-pg.sh $RESULT"
+                script {
+                    if ($RESULT != ""){
+                        sh "./jenkins/scripts/test-pg.sh $RESULT"
+                    }
+                }
             }
         }
         stage('Clone a DB snapshot & Connection Test') {
