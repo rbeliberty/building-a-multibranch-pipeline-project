@@ -93,7 +93,7 @@ pipeline {
                     ).trim()
                 }
                 echo "CLONE_JSON = $CLONE_JSON"
-                sh "echo $CLONE_JSON | jq -r '.db.port'"
+                # TODO : trouver le moyen de récupérer le port du clone
 
             }
         }
