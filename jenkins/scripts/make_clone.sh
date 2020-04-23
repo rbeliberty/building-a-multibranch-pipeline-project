@@ -3,5 +3,5 @@
 REPO_NAME=$1
 ENV_CI=$2
 
-db config switch "${ENV_CI}"
-db snapshot list
+dblab config switch "${ENV_CI}"
+dblab snapshot list
