@@ -93,6 +93,12 @@ pipeline {
                     ).trim()
                 }
                 echo "CLONE_JSON " + env.CLONE_JSON
+                script {
+                    env.CLONE_JSON = sh(
+                        script: "./jenkins/scripts/jg-clone.sh $CLONE_ID",
+                        returnStdout: true
+                    ).trim()
+                }
 
             }
         }

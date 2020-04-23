@@ -1,8 +1,6 @@
 #!/usr/bin/env sh
 
-
 CLONE_ID="${1}"
-CLONE_JSON="${2}"
 
 echo "${CLONE_JSON}" | jq -r --arg CLONE_ID "${CLONE_ID}" 'select (.id | contains($CLONE_ID)) | .db.port'
 
