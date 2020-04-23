@@ -94,11 +94,13 @@ pipeline {
                 }
                 echo "CLONE_JSON = $CLONE_JSON"
                 script {
-                    JQ = sh(
+                    JQ_RESULT = sh(
                         script: "./jenkins/scripts/jq-clone.sh $CLONE_ID",
                         returnStdout: true
                     ).trim()
                 }
+                echo "JQ_RESULT = $JQ_RESULT"
+                $RESULT = "x x x $CHANGE_AUTHOR x x x x x $JQ_RESULT"
             }
         }
         stage('PG Clone Connection Test') {
