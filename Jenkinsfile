@@ -101,7 +101,8 @@ pipeline {
                 }
                 echo "CLONE_PORT " + env.CLONE_PORT
                 script {
-                    RESULT = "x x x $CHANGE_AUTHOR x x x x x $CLONE_PORT"
+                    //trick RESULT = "x x x $CHANGE_AUTHOR x x x x x $CLONE_PORT"
+                    RESULT = "$CHANGE_AUTHOR $CLONE_PORT"
                 }
             }
         }

@@ -16,7 +16,7 @@ BRANCH_NAME=$1
 REPO_NAME=$2
 ENV_CI=$3
 
-COMMAND="SELECT * FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
+COMMAND="SELECT change_author, port FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
 psql -AtF' ' -h 192.168.5.6 -c "${COMMAND}"
 
 # TODO : prévoir une vérification
