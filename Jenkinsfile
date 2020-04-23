@@ -94,12 +94,12 @@ pipeline {
                 }
                 echo "CLONE_JSON " + env.CLONE_JSON
                 script {
-                    env.CLONE_JSON = sh(
+                    env.CLONE_PORT = sh(
                         script: "./jenkins/scripts/jg-clone.sh $CLONE_ID",
                         returnStdout: true
                     ).trim()
                 }
-
+                echo "CLONE_PORT " + env.CLONE_PORT
             }
         }
         stage('PG Clone Connection Test') {
