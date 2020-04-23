@@ -87,12 +87,12 @@ pipeline {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
-                    CLONE_JSON = sh(
+                    env.CLONE_JSON = sh(
                         script: "./jenkins/scripts/make-clone.sh $CLONE_ID $ENV_CI",
                         returnStdout: true
                     ).trim()
                 }
-                echo "CLONE_JSON = $CLONE_JSON"
+                echo "CLONE_JSON " + env.CLONE_JSON
 
             }
         }
