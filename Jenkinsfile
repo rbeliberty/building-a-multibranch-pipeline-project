@@ -94,14 +94,14 @@ pipeline {
                 }
                 echo "CLONE_JSON = $CLONE_JSON"
                 script {
-                    JQ_RESULT = sh(
-                        script: " echo $CLONE_JSON | ./jenkins/scripts/jq-clone.sh $CLONE_ID",
+                    JQ_PORT = sh(
+                        script: "echo ${CLONE_JSON} | jq -r --arg CLONEID "${CLONE_ID}" 'select (.id | contains($CLONEID)) | .db.port'",
                         returnStdout: true
                     ).trim()
                 }
-                echo "JQ_RESULT = $JQ_RESULT"
+                echo "JQ_PORT = $JQ_PORT"
                 script {
-                    RESULT = "    $CHANGE_AUTHOR    $JQ_RESULT"
+                    RESULT = "    $CHANGE_AUTHOR    $JQ_PORT"
                 }
             }
         }
