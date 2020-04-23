@@ -46,6 +46,7 @@ pipeline {
                 script {
                     allJob = env.JOB_NAME.tokenize('/') as String[];
                     REPO_NAME = allJob[0];
+                    CLONE_ID = allJob[0] + '_' + allJob[1]
                 }
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
@@ -64,13 +65,14 @@ pipeline {
                 sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
             }
         }
-        stage('Check PGClone') {
+        stage('Check Association PGClone/PR') {
             steps {
                 echo "REPO_NAME = $REPO_NAME"
+                echo "CLONE_ID = $CLONE_ID"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
                     RESULT = sh(
-                        script: "./jenkins/scripts/pgclone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
+                        script: "./jenkins/scripts/check_association.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
                         returnStdout: true
                     ).trim()
                 }
@@ -82,7 +84,15 @@ pipeline {
                expression { RESULT == "" }
             }
             steps {
-                sh "echo 'Clone deployment with ID snapshot'"
+                echo "REPO_NAME = $REPO_NAME"
+                echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
+                script {
+                    RESULT = sh(
+                        script: "./jenkins/scripts/make_clone.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
+                        returnStdout: true
+                    ).trim()
+                }
+                echo "RESULT = $RESULT"
             }
         }
         stage('PG Clone Connection Test') {
