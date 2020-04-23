@@ -118,13 +118,15 @@ pipeline {
             when {
                expression { NEW_CLONE == 1 }
             }
-            script {
-                INSERT_ASSOCIATION = sh(
-                    script: "./jenkins/scripts/jq-association.sh $CLONE_ID",
-                    returnStdout: true
-                ).trim()
+            steps{
+                script {
+                    INSERT_ASSOCIATION = sh(
+                        script: "./jenkins/scripts/jq-association.sh $CLONE_ID",
+                        returnStdout: true
+                    ).trim()
+                }
+                echo "INSERT_ASSOCIATION : $INSERT_ASSOCIATION"
             }
-            echo "INSERT_ASSOCIATION : $INSERT_ASSOCIATION"
         }
         stage('Deliver for PR in Staging'){
             when {
