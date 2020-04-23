@@ -16,7 +16,7 @@ BRANCH_NAME=$1
 REPO_NAME=$2
 ENV_CI=$3
 
-COMMAND="\f '\t'; SELECT * FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}';"
+COMMAND="\f '\t' SELECT * FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
 # shellcheck disable=SC2039
 psql -X -A -t -h 192.168.5.6 -c "${COMMAND}"
 
