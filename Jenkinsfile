@@ -95,7 +95,7 @@ pipeline {
                 echo "CLONE_JSON = $CLONE_JSON"
                 script {
                     JQ_RESULT = sh(
-                        script: "./jenkins/scripts/jq-clone.sh $CLONE_ID $CLONE_JSON",
+                        script: " echo $CLONE_JSON | ./jenkins/scripts/jq-clone.sh $CLONE_ID",
                         returnStdout: true
                     ).trim()
                 }
