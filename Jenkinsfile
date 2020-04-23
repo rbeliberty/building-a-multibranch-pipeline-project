@@ -100,6 +100,9 @@ pipeline {
                     ).trim()
                 }
                 echo "CLONE_PORT " + env.CLONE_PORT
+                script {
+                    RESULT = "   $CHANGE_AUTHOR     $CLONE_PORT"
+                }
             }
         }
         stage('PG Clone Connection Test') {
