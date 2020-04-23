@@ -93,7 +93,7 @@ pipeline {
                     ).trim()
                 }
                 echo "CLONE_JSON = $CLONE_JSON"
-                sh 'echo $CLONE_JSON | jq -r \'.db.port\''
+                sh "echo $CLONE_JSON | jq -r '.db.port'"
 
             }
         }
