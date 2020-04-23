@@ -17,7 +17,7 @@ REPO_NAME=$2
 ENV_CI=$3
 
 COMMAND="SELECT * FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
-psql -h 192.168.5.6 -c "\F '\t'"
+psql -h 192.168.5.6 -c "\f '\t'"
 psql -At -h 192.168.5.6 -c "${COMMAND}"
 
 
