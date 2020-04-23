@@ -95,7 +95,7 @@ pipeline {
                 echo "CLONE_JSON = $CLONE_JSON"
                 script {
                     JQ_PORT = sh(
-                        script: "echo $CLONE_JSON | jq -r --arg CLONEID $CLONE_ID 'select (.id | contains($CLONEID)) | .db.port'",
+                        script: "echo $CLONE_JSON | jq -r 'select (.id | contains(\"building-a-multibranch-pipeline-project_PR-5\")) | .db.port'",
                         returnStdout: true
                     ).trim()
                 }
