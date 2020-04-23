@@ -79,7 +79,7 @@ pipeline {
         }
         stage('Clone a DB snapshot') {
             when {
-               expression { RESULT == "vide" }
+               expression { RESULT == "" }
             }
             steps {
                 sh "echo 'Clone deployment with ID snapshot'"
@@ -93,7 +93,7 @@ pipeline {
         }
         stage('Backup association PGClone') {
             when {
-               expression { RESULT == "vide" }
+               expression { RESULT == "" }
             }
             steps {
                 sh 'echo ./jenkins/scripts/backup.sh'
