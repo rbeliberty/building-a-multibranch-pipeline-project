@@ -3,6 +3,7 @@
 # dblab snapshot list | jq --raw-output '.[] | select (.id=="dblab_pool@17-staging") | .createdAt'
  #dblab snapshot list | jq --raw-output '.[].createdAt'
  #jq --raw-output '.[] | select (.id | contains("staging"))'
+ # commande de malade : jq --raw-output '[.[] | select (.id | contains("staging"))][0].id'
 
 ASSOCIATION_ID="${1}"
 SNAPSHOT_ID="${2}"
