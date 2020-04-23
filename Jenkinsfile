@@ -65,7 +65,7 @@ pipeline {
                 sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
             }
         }
-        stage('Check Association PGClone/PR & Connection Test') {
+        stage('Check Association PGClone/PR') {
             steps {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "CLONE_ID = $CLONE_ID"
@@ -77,15 +77,9 @@ pipeline {
                     ).trim()
                 }
                 echo "RESULT = $RESULT"
-                // Attention RESULT contient plusieurs strings séparés par un espace
-                script {
-                    if ($RESULT != ""){
-                        sh "./jenkins/scripts/test-pg.sh $RESULT"
-                    }
-                }
             }
         }
-        stage('Clone a DB snapshot & Connection Test') {
+        stage('Clone a DB snapshot') {
             when {
                expression { RESULT == "" }
             }
@@ -93,22 +87,26 @@ pipeline {
                 echo "REPO_NAME = $REPO_NAME"
                 echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
                 script {
-                    RESULT_MAKE_CLONE = sh(
+                    CLONE_JSON = sh(
                         script: "./jenkins/scripts/make-clone.sh $CLONE_ID $ENV_CI",
                         returnStdout: true
                     ).trim()
                 }
-                echo "RESULT_MAKE_CLONE = $RESULT_MAKE_CLONE"
+                echo "CLONE_JSON = $CLONE_JSON"
                 script {
                     JQ = sh(
-                        script: "./jenkins/scripts/jq-clone.sh $RESULT_MAKE_CLONE",
+                        script: "./jenkins/scripts/jq-clone.sh $CLONE_ID",
                         returnStdout: true
                     ).trim()
                 }
+            }
+        }
+        stage('PG Clone Connection Test') {
+            steps {
+                // Attention RESULT contient plusieurs strings séparés par un espace
                 sh "./jenkins/scripts/test-pg.sh $RESULT"
             }
         }
-
         stage('Backup association PGClone') {
             when {
                expression { RESULT == "" }
