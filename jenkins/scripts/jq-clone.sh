@@ -2,7 +2,7 @@
 
 CLONE_ID="${1}"
 
-echo "${CLONE_JSON}" | jq -r --arg CLONE_ID "${CLONE_ID}" 'select (.id | contains($CLONE_ID)) | .db.port'
+echo "${CLONE_JSON}" | jq -r --arg CLONEID "${CLONE_ID}" 'select (.id | contains($CLONEID)) | .db.port'
 
 #
 #{

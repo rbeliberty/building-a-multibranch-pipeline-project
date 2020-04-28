@@ -138,7 +138,7 @@ pipeline {
                 sh 'echo ./jenkins/scripts/kill.sh'
             }
         }
-        stage('Deliver for development') {
+        stage('Deliver for preprod') {
             when {
                 branch 'dev'
             }
