@@ -95,6 +95,7 @@ pipeline {
                 }
                 echo "CLONE_JSON " + env.CLONE_JSON
                 script {
+                    // Laissez cette variable en env.
                     env.CLONE_PORT = sh(
                         script: "./jenkins/scripts/jq-clone.sh $CLONE_ID",
                         returnStdout: true
