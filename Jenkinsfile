@@ -122,7 +122,7 @@ pipeline {
             steps{
                 script {
                     INSERT_ASSOCIATION = sh(
-                        script: "./jenkins/scripts/insert-association.sh $CLONE_ID",
+                        script: "./jenkins/scripts/insert-association.sh $CLONE_ID $ENV_CI",
                         returnStdout: true
                     ).trim()
                 }
