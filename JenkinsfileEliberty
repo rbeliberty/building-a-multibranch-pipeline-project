@@ -139,7 +139,7 @@ pipeline {
                 sh 'ls -la'
                 script {
 
-                    customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID", "-f DockerfileSymfony ./")
+                    customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID")
 
                 }
             }
