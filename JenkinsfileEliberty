@@ -134,9 +134,11 @@ pipeline {
             }
         }
         stage('Build Image and Push Registry') {
-            docker.withRegistry('http://192.168.5.5:5000', 'myregistry_login') {
-                customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID")
-                customImage.push()
+            steps {
+                docker.withRegistry('http://192.168.5.5:5000', 'myregistry_login') {
+                    customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID")
+                    customImage.push()
+                }
             }
         }
         stage('Deliver for PR in Staging'){
