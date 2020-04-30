@@ -136,7 +136,7 @@ pipeline {
         stage('Build Image and Push Registry') {
             steps {
                 echo "imageName : $imageName"
-                sh 'ls -la'
+                sh 'pwd && ls -la'
                 script {
 
                     customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID")
