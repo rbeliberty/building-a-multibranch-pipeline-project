@@ -137,7 +137,7 @@ pipeline {
             steps {
                 echo "imageName : $imageName"
                 script {
-
+                    ls -la
                     customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID", "-f DockerfileSymfony ./")
 
                 }
