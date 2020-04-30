@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# Si on est dans un agent Docker, il faut installer dblab ou bien utiliser un Dockerfile custom
+# Si on est dans un agent Docker, il faut installer dblab ou bien utiliser un DockerfileJenkins custom
 # Il faut que le client dblab (alias db dans zshrc) soit installé et initialisé
 
 

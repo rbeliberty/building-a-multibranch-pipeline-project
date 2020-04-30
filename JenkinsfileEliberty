@@ -13,7 +13,9 @@
 
 pipeline {
     agent {
-        dockerfile true
+        dockerfile {
+            filename 'DockerfileJenkins'
+        }
     }
     environment {
         CI = 'true'
