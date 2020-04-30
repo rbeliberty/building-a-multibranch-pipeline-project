@@ -25,6 +25,7 @@ pipeline {
         PGUSER        = credentials('jenkins-pguser')
         PGPASSWORD    = credentials('jenkins-pgpassword')
         PGDATABASE    = credentials('jenkins-pgdatabase')
+        imageRoot     = '192.168.5.5:5000/'
     }
     stages {
         stage('Init Dblab') {
@@ -50,6 +51,7 @@ pipeline {
                     REPO_NAME = allJob[0];
                     CLONE_ID = allJob[0] + '_' + allJob[1]
                     NEW_CLONE = 0
+                    imageName = env.imageRoot + REPO_NAME
                 }
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
@@ -129,6 +131,12 @@ pipeline {
                     ).trim()
                 }
                 echo "INSERT_ASSOCIATION : $INSERT_ASSOCIATION"
+            }
+        }
+        stage('Build Image and Push Registry') {
+            docker.withRegistry('http://192.168.5.5:5000', 'myregistry_login') {
+                customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID")
+                customImage.push()
             }
         }
         stage('Deliver for PR in Staging'){
