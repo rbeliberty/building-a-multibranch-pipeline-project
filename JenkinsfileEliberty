@@ -140,7 +140,6 @@ pipeline {
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     echo "imageName : $imageName"
                     sh '''
-                        pwd
                         ls -la
                     '''
                 }
