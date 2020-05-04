@@ -134,6 +134,7 @@ pipeline {
             }
         }
         stage('Build Image and Push Registry') {
+            agent any
             steps {
                 echo "imageName : $imageName"
                 sh 'pwd && ls -la'
