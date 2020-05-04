@@ -1,14 +1,15 @@
 
 pipeline {
-   agent {
-        dockerfile {
-            filename 'DockerfileJenkins'
-
-        }
-   }
+    agent none
 
     stages {
-
+        stage('Test build'){
+            agent {
+                dockerfile {
+                    filename 'DockerfileJenkins'
+                }
+            }
+        }
         stage('Build Image and Push Registry') {
             agent any
             steps {
