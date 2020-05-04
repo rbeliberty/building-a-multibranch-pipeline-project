@@ -34,3 +34,6 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 #RUN service docker start
 #RUN service docker status
 #RUN docker run hello-world
+
+RUN usermod -a -G staff jenkins
+USER jenkins
