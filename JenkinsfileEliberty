@@ -139,13 +139,7 @@ pipeline {
             steps {
                 echo "imageName : $imageName"
                 sh 'pwd && ls -la'
-                script {
-                    env.DOCKER = sh(
-                        script: "./jenkins/scripts/docker.sh",
-                        returnStdout: true
-                    )
-                }
-                echo "DOCKER " + env.DOCKER
+
             }
         }
         stage('Deliver for PR in Staging'){
