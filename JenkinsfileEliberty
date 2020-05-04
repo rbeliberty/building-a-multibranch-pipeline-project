@@ -11,7 +11,7 @@ pipeline {
 
                     sh '''
                         ls -la
-                        docker build - t test/test:latest .
+                        docker build -t test/test:latest .
                     '''
                 }
             }
