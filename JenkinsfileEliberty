@@ -15,6 +15,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'DockerfileJenkins'
+            label 'myDocker'
         }
     }
     environment {
