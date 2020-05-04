@@ -137,11 +137,10 @@ pipeline {
             steps {
                 echo "imageName : $imageName"
                 sh 'pwd && ls -la'
-                script {
 
                     customImage = docker.build("$imageName:$BRANCH_NAME-$BUILD_ID")
 
-                }
+
             }
         }
         stage('Deliver for PR in Staging'){
