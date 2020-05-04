@@ -138,7 +138,9 @@ pipeline {
             agent any
             steps {
                 echo "imageName : $imageName"
-
+                sh '''
+                    ls -la
+                '''
 
             }
         }
