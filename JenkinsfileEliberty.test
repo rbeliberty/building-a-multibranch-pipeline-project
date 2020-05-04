@@ -1,0 +1,39 @@
+
+pipeline {
+    agent none
+
+    stages {
+        stage('Test build'){
+            agent {
+                dockerfile {
+                    filename 'DockerfileJenkins'
+                    label 'app'
+
+                }
+            }
+            steps {
+                echo 'BRANCH_NAME : ' + env.BRANCH_NAME
+            }
+        }
+        stage('Build Image and Push Registry') {
+            agent any
+            steps {
+                 script {
+                    customImage = docker.build("test/test:latest")
+                 }
+            }
+        }
+        stage('Test 2'){
+            agent {
+                label 'app'
+            }
+            steps {
+                echo 'BRANCH_NAME : ' + env.BRANCH_NAME
+            }
+        }
+
+    }
+
+}
+
+

@@ -24,13 +24,13 @@ RUN apt-get install -y postgresql-client-12
 
 RUN curl -s https://gitlab.com/postgres-ai/database-lab/-/raw/master/scripts/cli_install.sh | bash
 
-#RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-#RUN add-apt-repository \
-#       "deb [arch=amd64] https://download.docker.com/linux/debian \
-#       $(lsb_release -cs) \
-#       stable"
-#RUN apt-get update -y
-#RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+RUN add-apt-repository \
+       "deb [arch=amd64] https://download.docker.com/linux/debian \
+       $(lsb_release -cs) \
+       stable"
+RUN apt-get update -y
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 #RUN service docker start
 #RUN service docker status
 #RUN docker run hello-world
