@@ -138,7 +138,10 @@ pipeline {
             agent any
             steps {
                 echo "imageName : $imageName"
-                sh 'pwd && ls -la'
+                scripts {
+                  echo "Build"
+                  pwd && ls -la
+                }
 
             }
         }
