@@ -142,7 +142,7 @@ pipeline {
                     echo "imageName : $imageName"
                     sh '''
                         ls -la
-                        docker build -u 106 -t test:latest .
+                        docker build -t test:latest .
                     '''
                 }
             }
