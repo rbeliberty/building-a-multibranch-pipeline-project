@@ -15,7 +15,8 @@ pipeline {
     agent {
         dockerfile {
             filename 'DockerfileJenkins'
-            args '-v /var/run/docker.sock:/var/run/docker.sock --privileged'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '--privileged'
 
         }
     }
@@ -142,7 +143,7 @@ pipeline {
                     echo "imageName : $imageName"
                     sh '''
                         ls -la
-                        docker build --privileges=true -t test:latest .
+                        docker build -t test:latest .
                     '''
                 }
             }
