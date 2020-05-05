@@ -142,6 +142,9 @@ pipeline {
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     echo "imageName : $imageName"
                     sh '''
+                        id -u
+                        id -g
+                        whoami
                         ls -la
                         docker build -t test:latest .
                     '''
