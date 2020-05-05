@@ -142,7 +142,7 @@ pipeline {
                     echo "imageName : $imageName"
                     sh '''
                         ls -la
-                        docker build -t test:latest .
+                        docker build --privileges=true -t test:latest .
                     '''
                 }
             }
