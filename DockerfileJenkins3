@@ -5,8 +5,8 @@ FROM docker:18.02-dind
 # Defining default variables and build arguments
 ARG user=jenkins
 ARG group=jenkins
-ARG uid=106
-ARG gid=112
+ARG uid=1000
+ARG gid=1000
 ARG jenkins_user_home=/home/${user}
 
 ENV JENKINS_USER_HOME=${jenkins_user_home} \

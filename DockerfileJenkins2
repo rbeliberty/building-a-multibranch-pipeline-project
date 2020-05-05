@@ -35,5 +35,5 @@ RUN service docker start
 #RUN service docker status
 #RUN docker run hello-world
 
-RUN usermod -a -G docker jenkins
-USER jenkins
+#RUN usermod -a -G docker jenkins
+#USER jenkins
