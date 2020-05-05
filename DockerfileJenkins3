@@ -1,39 +1,56 @@
-FROM debian:stretch-slim
-RUN groupadd -r -g 112 jenkins
-RUN useradd -m -r -u 106 -g jenkins jenkins
+# Official Docker Image from https://hub.docker.com/_/docker/
+# Set the Docker version you want to use
+FROM docker:18.02-dind
 
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y \
-  build-essential \
-  apt-utils \
-  ca-certificates \
-  apt-transport-https \
-  gnupg \
+# Defining default variables and build arguments
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=106
+ARG gid=112
+ARG jenkins_user_home=/home/${user}
+
+ENV JENKINS_USER_HOME=${jenkins_user_home} \
+  LANG=C.UTF-8 \
+  JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
+  PATH=${PATH}:/usr/local/bin:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin \
+  DOCKER_IMAGE_CACHE_DIR=/docker-cache \
+  AUTOCONFIGURE_DOCKER_STORAGE=true
+
+# Install required packages for running a Jenkins agent
+RUN apk add --no-cache \
+  bash \
   curl \
-  jq \
-  gnupg2 \
-  wget \
-  lsb-release \
-  gnupg-agent \
-  software-properties-common
+  ca-certificates \
+  git \
+  openjdk8 \
+  unzip \
+  tar \
+  tini
 
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list
-RUN apt-get update -y
-RUN apt-get install -y postgresql-client-12
+# Set up default user for jenkins
+RUN addgroup -g ${gid} ${group} \
+  && adduser \
+    -h "${jenkins_user_home}" \
+    -u "${uid}" \
+    -G "${group}" \
+    -s /bin/bash \
+    -D "${user}" \
+  && echo "${user}:${user}" | chpasswd
 
-RUN curl -s https://gitlab.com/postgres-ai/database-lab/-/raw/master/scripts/cli_install.sh | bash
+# Adding the default user to groups used by Docker engine
+# "docker" for avoiding sudo, and "dockremap" if you enable user namespacing
+RUN addgroup docker \
+  && addgroup ${user} docker \
+  && addgroup ${user} dockremap
 
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-RUN add-apt-repository \
-       "deb [arch=amd64] https://download.docker.com/linux/debian \
-       $(lsb_release -cs) \
-       stable"
-RUN apt-get update -y
-RUN apt-get install -y docker-ce docker-ce-cli containerd.io
-RUN service docker start
-#RUN service docker status
-#RUN docker run hello-world
+# Custom start script
+COPY ./entrypoint3.bash /usr/local/bin/entrypoint.bash
 
-RUN usermod -a -G docker jenkins
-USER jenkins
+# Those folders should not be on the Docker "layers"
+VOLUME ${jenkins_user_home} /docker-cache /tmp
+
+# Default working directory
+WORKDIR ${jenkins_user_home}
+
+# Define the "default" entrypoint command executed on the container as PID 1
+ENTRYPOINT ["/sbin/tini","-g","--","bash","/usr/local/bin/entrypoint.bash"]
