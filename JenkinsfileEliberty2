@@ -141,7 +141,7 @@ pipeline {
                     echo "tagDocker : $tagDocker"
                     sh '''
                         ls -la
-                        docker build -t ${tagDocker" .
+                        docker build -t ${tagDocker} .
                     '''
                 }
             }
