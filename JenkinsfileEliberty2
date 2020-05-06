@@ -140,7 +140,8 @@ pipeline {
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     echo "tagDocker : $tagDocker"
                     sh '''
-                        docker build -t $tagDocker .
+                        ls -la
+                        docker build -t test/toto:latest .
                     '''
                 }
             }
