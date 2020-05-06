@@ -2,7 +2,7 @@ FROM debian:stretch-slim
 
 RUN groupadd -for -g 998 docker
 RUN groupadd -r -g 1000 jenkins
-RUN useradd -m -u 1000 -g jenkins jenkins
+RUN useradd -s /bin/bash -m -u 1000 -g jenkins jenkins
 
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y \
