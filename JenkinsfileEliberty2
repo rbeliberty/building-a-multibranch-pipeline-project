@@ -16,7 +16,6 @@ pipeline {
         dockerfile {
             filename 'DockerfileJenkins2'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
-            args '-v /usr/bin/docker:/usr/bin/docker'
             args '--privileged=true'
             args '--cap-add=ALL'
 
