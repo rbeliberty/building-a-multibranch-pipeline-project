@@ -144,7 +144,6 @@ pipeline {
                     sh '''
                         id
                         whoami
-                        ls -la
                         cat /etc/passwd | grep "jenkins:"
                         cat /etc/group | grep "docker:"
                         cat /etc/group | grep "jenkins:"
