@@ -15,10 +15,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'DockerfileJenkins2'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-            args '--privileged=true'
-            args '--cap-add=ALL'
-
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
     environment {
@@ -149,7 +146,7 @@ pipeline {
                         cat /etc/group | grep "jenkins:"
                         stat /var/run/docker.sock
                         which docker
-                        docker build -t test:latest .
+                        docker build -t $imageName .
                     '''
                 }
             }
