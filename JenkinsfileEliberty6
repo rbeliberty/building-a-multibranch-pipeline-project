@@ -1,7 +1,7 @@
 pipeline {
     agent {
         dockerfile {
-            filename 'DockerfileJenkins5'
+            filename 'DockerfileJenkins6'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             args '-e DOCKER_HOST=tcp://192.168.48.3:2375'
         }
