@@ -145,8 +145,9 @@ pipeline {
                         id
                         whoami
                         ls -la
-                        cat /etc/passwd
-                        cat /etc/group
+                        cat /etc/passwd | grep "jenkins:"
+                        cat /etc/group | grep "docker:"
+                        cat /etc/group | grep "jenkins:"
                         stat /var/run/docker.sock
                         docker build -t test:latest .
                     '''
