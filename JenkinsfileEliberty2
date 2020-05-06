@@ -146,6 +146,8 @@ pipeline {
                         id -g
                         whoami
                         ls -la
+                        cat /etc/passwd
+                        cat /etc/group
                         stat /var/run/docker.sock
                         docker build -t test:latest .
                     '''
