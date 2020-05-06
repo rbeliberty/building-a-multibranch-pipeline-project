@@ -3,7 +3,7 @@ pipeline {
         dockerfile {
             filename 'DockerfileJenkins5'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
-
+            args '-e DOCKER_HOST=tcp://dind:2375'
         }
     }
 
