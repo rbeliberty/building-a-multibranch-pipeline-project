@@ -1,10 +1,28 @@
-
+/* script {
+    if (env.BRANCH_NAME.startsWith("PR-")) {
+        echo "Deploying to Staging environment after build"
+        env.ENV_CI = "staging"
+    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+        echo "Deploying to preprod after build and Staging Deployment"
+        env.ENV_CI = "preprod"
+    } else if (env.BRANCH_NAME.startsWith("master")) {
+        echo "Deploying to PROD environment"
+        env.ENV_CI = "prod"
+    }
+} */
 
 pipeline {
-    agent any
+    agent {
+        dockerfile {
+            filename 'DockerfileJenkins2'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '--privileged'
+
+        }
+    }
     environment {
-        //CI = 'true'
-        //HOME = '.'
+        CI = 'true'
+        HOME = '.'
         DBLAB_URL     = credentials('jenkins-dblab-stage-url')
         DBLAB_TOKEN   = credentials('jenkins-dblab-stage-token')
         PGUSER        = credentials('jenkins-pguser')

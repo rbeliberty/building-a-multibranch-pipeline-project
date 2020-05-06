@@ -1,0 +1,39 @@
+FROM debian:stretch-slim
+RUN groupadd -r -g 1000 jenkins
+RUN useradd -m -r -u 1000 -g jenkins jenkins
+
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y \
+  build-essential \
+  apt-utils \
+  ca-certificates \
+  apt-transport-https \
+  gnupg \
+  curl \
+  jq \
+  gnupg2 \
+  wget \
+  lsb-release \
+  gnupg-agent \
+  software-properties-common
+
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list
+RUN apt-get update -y
+RUN apt-get install -y postgresql-client-12
+
+RUN curl -s https://gitlab.com/postgres-ai/database-lab/-/raw/master/scripts/cli_install.sh | bash
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+RUN add-apt-repository \
+       "deb [arch=amd64] https://download.docker.com/linux/debian \
+       $(lsb_release -cs) \
+       stable"
+RUN apt-get update -y
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+RUN service docker start
+#RUN service docker status
+#RUN docker run hello-world
+
+#RUN usermod -a -G docker jenkins
+#USER jenkins
