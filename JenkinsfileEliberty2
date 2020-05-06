@@ -18,6 +18,7 @@ pipeline {
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             args '-v /usr/bin/docker:/usr/bin/docker'
             args '--privileged=true'
+            args '--cap_add=ALL'
 
         }
     }
