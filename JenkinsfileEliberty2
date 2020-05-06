@@ -146,6 +146,7 @@ pipeline {
                         id -g
                         whoami
                         ls -la
+                        stat /var/run/docker.sock
                         docker build -t test:latest .
                     '''
                 }
