@@ -142,8 +142,7 @@ pipeline {
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     echo "imageName : $imageName"
                     sh '''
-                        id -u
-                        id -g
+                        id
                         whoami
                         ls -la
                         cat /etc/passwd
