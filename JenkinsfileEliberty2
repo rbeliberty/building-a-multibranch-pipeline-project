@@ -52,6 +52,7 @@ pipeline {
                     CLONE_ID = allJob[0] + '_' + allJob[1]
                     NEW_CLONE = 0
                     imageName = env.imageRoot + REPO_NAME
+                    tagDocker = env.imageRoot + REPO_NAME + ':' + env.BUILD_NUMBER
                 }
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
@@ -137,16 +138,9 @@ pipeline {
 
             steps {
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
-                    echo "imageName : $imageName"
+                    echo "tagDocker : $tagDocker"
                     sh '''
-                        id
-                        whoami
-                        cat /etc/passwd | grep "jenkins:"
-                        cat /etc/group | grep "docker:"
-                        cat /etc/group | grep "jenkins:"
-                        stat /var/run/docker.sock
-                        which docker
-                        docker build -t $imageName .
+                        docker build -t $tagDocker
                     '''
                 }
             }
