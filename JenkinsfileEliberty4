@@ -1,20 +1,7 @@
-/* script {
-    if (env.BRANCH_NAME.startsWith("PR-")) {
-        echo "Deploying to Staging environment after build"
-        env.ENV_CI = "staging"
-    } else if (env.BRANCH_NAME.startsWith("Release_")) {
-        echo "Deploying to preprod after build and Staging Deployment"
-        env.ENV_CI = "preprod"
-    } else if (env.BRANCH_NAME.startsWith("master")) {
-        echo "Deploying to PROD environment"
-        env.ENV_CI = "prod"
-    }
-} */
-
 pipeline {
     agent {
         dockerfile {
-            filename 'DockerfileJenkins2'
+            filename 'DockerfileJenkins4'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             args '--privileged'
 
