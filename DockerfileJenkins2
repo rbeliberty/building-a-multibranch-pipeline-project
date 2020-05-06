@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
-RUN groupadd -r -g 112 jenkins
-RUN useradd -m -r -u 106 -g jenkins jenkins
+RUN groupadd -r -g 1000 jenkins
+RUN useradd -m -r -u 1000 -g jenkins jenkins
 
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y \
