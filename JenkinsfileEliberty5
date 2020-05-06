@@ -16,7 +16,7 @@ pipeline {
                     cat /etc/group | grep "docker:"
                     cat /etc/group | grep "jenkins:"
                     stat /var/run/docker.sock
-                    docker build -t test:latest .
+                    docker build -t test:test-2129 .
                 '''
             }
         }
