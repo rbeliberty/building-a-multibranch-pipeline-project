@@ -25,7 +25,7 @@ pipeline {
         PGUSER        = credentials('jenkins-pguser')
         PGPASSWORD    = credentials('jenkins-pgpassword')
         PGDATABASE    = credentials('jenkins-pgdatabase')
-        imageRoot     = '192.168.5.5:5000/'
+        imageRoot     = 'eliberty/'
     }
     stages {
         stage('Init Dblab') {
