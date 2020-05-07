@@ -135,12 +135,10 @@ pipeline {
             }
         }
         stage('Build Image and Push Registry') {
-
             steps {
                 echo "tagDocker : $tagDocker"
-
                 script {
-                    docker.withRegistry('http://192.168.5.5:5000', 'myregistry_login') {
+                    docker.withRegistry('http://192.168.5.5:5000', myregistry_login) {
                         customImage = docker.build tagDocker
                         customImage.push()
                     }
