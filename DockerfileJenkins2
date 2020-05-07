@@ -35,5 +35,7 @@ RUN add-apt-repository \
 RUN apt-get update -y
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 
+ADD daemon.json /etc/docker/
+
 RUN usermod -a -G docker jenkins
 USER jenkins
