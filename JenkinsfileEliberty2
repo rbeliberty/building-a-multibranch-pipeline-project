@@ -25,7 +25,7 @@ pipeline {
         PGUSER        = credentials('jenkins-pguser')
         PGPASSWORD    = credentials('jenkins-pgpassword')
         PGDATABASE    = credentials('jenkins-pgdatabase')
-        imageRoot     = 'eliberty/'
+        imageRoot     = '192.168.5.5:5000/'
     }
     stages {
         stage('Init Dblab') {
@@ -52,7 +52,7 @@ pipeline {
                     CLONE_ID = allJob[0] + '_' + allJob[1]
                     NEW_CLONE = 0
                     imageName = env.imageRoot + REPO_NAME
-                    tagDocker =  'testtest:' + env.BUILD_NUMBER
+                    tagDocker = imageName + env.BUILD_NUMBER
                 }
                 script {
                     if (env.BRANCH_NAME.startsWith("PR-")) {
@@ -139,10 +139,9 @@ pipeline {
             steps {
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     echo "tagDocker : $tagDocker"
-                    sh '''
-                        ls -la
-                        docker build -t  192.168.5.5:5000/building-a-multibranch-pipeline-project:42 .
-                    '''
+                    script {
+                        docker.build tagDocker
+                    }
                 }
             }
         }
