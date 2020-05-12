@@ -17,7 +17,7 @@ REPO_NAME=$2
 ENV_CI=$3
 
 COMMAND="SELECT change_author, port FROM associations WHERE branch_name='${BRANCH_NAME}' AND repo_name='${REPO_NAME}'"
-psql -AtF' ' -h 192.168.5.6 -c "${COMMAND}"
+psql -AtF' ' -h pg-pipeline.elib.loc -c "${COMMAND}"
 
 # TODO : prévoir une vérification
 ## Par exemple le nombre de champs et faire des vérification regexp par exemple PR-xx, YYYY-MM-DD, port = 6XXX
