@@ -3,5 +3,9 @@
   hosts: staging
   remote_user: elibadmin
   vars:
+    pr_build: "{{ lookup('env','PR_BUILD') }}"
+    docker_registry_url : "{{ lookup('env','DOCKER_REGISTRY_URL') }}"
+    docker_registry_user : "{{ lookup('env','DOCKER_REGISTRY_USER') }}"
+    docker_registry_password : "{{ lookup('env','DOCKER_REGISTRY_PASSWORD') }}"
   roles:
     - deploy

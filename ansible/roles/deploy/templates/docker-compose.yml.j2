@@ -30,10 +30,10 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./public:/srv/app/public:ro
     labels:
-      - traefik.http.routers."{{ PR_BUILD }}"-nginx.rule=Host(`"{{ PR_BUILD }}".rpstaging.com`)
-      - traefik.http.routers."{{ PR_BUILD }}"-nginx.entrypoints=http
-      - traefik.http.routers."{{ PR_BUILD }}"-nginx.middlewares=redirect@file
-      - traefik.http.routers."{{ PR_BUILD }}"-nginxs.rule=Host(`"{{ PR_BUILD }}".rpstaging.com`)
-      - traefik.http.routers."{{ PR_BUILD }}"-nginxs.entrypoints=https
-      - traefik.http.routers."{{ PR_BUILD }}"-nginxs.tls=true
+      - traefik.http.routers."{{ pr_build }}"-nginx.rule=Host(`"{{ pr_build }}".rpstaging.com`)
+      - traefik.http.routers."{{ pr_build }}"-nginx.entrypoints=http
+      - traefik.http.routers."{{ pr_build }}"-nginx.middlewares=redirect@file
+      - traefik.http.routers."{{ pr_build }}"-nginxs.rule=Host(`"{{ pr_build }}".rpstaging.com`)
+      - traefik.http.routers."{{ pr_build }}"-nginxs.entrypoints=https
+      - traefik.http.routers."{{ pr_build }}"-nginxs.tls=true
 
