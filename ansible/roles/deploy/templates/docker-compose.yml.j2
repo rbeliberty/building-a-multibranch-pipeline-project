@@ -37,3 +37,9 @@ services:
       - traefik.http.routers."{{ pr_build }}"-nginxs.entrypoints=https
       - traefik.http.routers."{{ pr_build }}"-nginxs.tls=true
 
+networks:
+  default:
+    external:
+      name: gateway
+  project2:
+    internal: true
