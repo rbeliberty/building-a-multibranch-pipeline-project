@@ -25,7 +25,7 @@ pipeline {
         PGUSER        = credentials('jenkins-pguser')
         PGPASSWORD    = credentials('jenkins-pgpassword')
         PGDATABASE    = credentials('jenkins-pgdatabase')
-        imageRoot     = '192.168.5.5:5000/'
+        imageRoot     = 'registry-pipeline.elib.loc:5000/'
     }
     stages {
         stage('Init Dblab') {
@@ -138,7 +138,7 @@ pipeline {
             steps {
                 echo "tagDocker : $tagDocker"
                 script {
-                    docker.withRegistry('http://192.168.5.5:5000', 'myregistry_login') {
+                    docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
                         customImage = docker.build tagDocker
                         customImage.push()
                     }
