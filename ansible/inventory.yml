@@ -1,0 +1,6 @@
+
+all:
+  children:
+    staging:
+      hosts:
+        staging-pipeline.elib.loc

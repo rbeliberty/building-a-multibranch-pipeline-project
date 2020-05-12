@@ -146,6 +146,12 @@ pipeline {
                 sh "docker rmi ${tagDocker}"
             }
         }
+        stage('Ansible : Generate template docker-compose'){
+            steps {
+
+            }
+
+        }
         stage('Deliver for PR in Staging'){
             when {
                 expression { BRANCH_NAME ==~ /PR-\d+/ } 

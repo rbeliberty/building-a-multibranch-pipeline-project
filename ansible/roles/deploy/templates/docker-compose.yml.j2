@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  php:
+    build:
+      context: .
+      target: symfony_php
+      args:
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+        STABILITY: ${STABILITY:-stable}
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    volumes:
+      # Comment out the next line in production
+      - ./:/srv/app:rw,cached
+    environment:
+      - SYMFONY_VERSION
+
+  nginx:
+    build:
+      context: .
+      target: symfony_nginx
+    depends_on:
+      - php
+    volumes:
+      # Comment out the next line in production
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./public:/srv/app/public:ro
+    labels:
+      - traefik.http.routers."{{ PR_BUILD }}"-nginx.rule=Host(`"{{ PR_BUILD }}".rpstaging.com`)
+      - traefik.http.routers."{{ PR_BUILD }}"-nginx.entrypoints=http
+      - traefik.http.routers."{{ PR_BUILD }}"-nginx.middlewares=redirect@file
+      - traefik.http.routers."{{ PR_BUILD }}"-nginxs.rule=Host(`"{{ PR_BUILD }}".rpstaging.com`)
+      - traefik.http.routers."{{ PR_BUILD }}"-nginxs.entrypoints=https
+      - traefik.http.routers."{{ PR_BUILD }}"-nginxs.tls=true
+

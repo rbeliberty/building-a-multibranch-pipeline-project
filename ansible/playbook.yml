@@ -1,0 +1,7 @@
+---
+- name: Install application
+  hosts: staging
+  remote_user: elibadmin
+  vars:
+  roles:
+    - deploy
