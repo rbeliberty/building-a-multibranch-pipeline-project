@@ -11,3 +11,11 @@ RUN composer install \
     --no-scripts \
     --prefer-dist
 
+# STAGE 2 : COPY CODE SOURCE
+
+
+# STAGE 3 CONFIGURE PHP
+
+
+# STAGE 4 CONFIGURE NGINX
+
