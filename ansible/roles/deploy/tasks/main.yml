@@ -1,7 +1,7 @@
 ---
 - name: Create directory pr build
   file:
-    dest: /home/elibadmin/Docker/"{{ pr_build }}"
+    dest: /home/elibadmin/Docker/{{ pr_build }}
     mode: 0750
     recurse: yes
     state: directory
@@ -9,17 +9,17 @@
 - name: Create docker-compose file
   template:
     src: docker-compose.yml.j2
-    dest: /home/elibadmin/Docker/"{{ pr_build }}"
+    dest: /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml
     mode: 0640
 
 - name: Login to registry
   shell: "docker login {{ docker_registry_url }} -u {{ docker_registry_user }} -p {{ docker_registry_password }}"
 
 - name: Run docker-compose
-  shell: docker-compose -f /home/elibadmin/Docker/"{{ pr_build }}"/docker-compose.yml down
+  shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml down
 
 - name: Run docker-compose
-  shell: docker-compose -f /home/elibadmin/Docker/"{{ pr_build }}"/docker-compose.yml up
+  shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml up
 
 - name: Wait container
   uri:
@@ -29,3 +29,10 @@
   until: result.status == 404
   retries: 120
   delay: 1
+
+networks:
+  default:
+    external:
+      name: gateway
+  project2:
+    internal: true
