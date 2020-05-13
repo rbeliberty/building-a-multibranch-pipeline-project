@@ -153,6 +153,7 @@ pipeline {
         }
         stage('Ansible : Generate template docker-compose and pull image'){
             steps {
+                echo "tagDocker : $tagDocker"
                 ansiblePlaybook (
                     colorized: true,
                     inventory: 'ansible/inventory.yml',
