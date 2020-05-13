@@ -1,5 +1,5 @@
 ---
-- name: Create directory pr build
+- name: Create directory PR-BUILD
   file:
     dest: /home/elibadmin/Docker/{{ pr_build }}
     mode: 0750

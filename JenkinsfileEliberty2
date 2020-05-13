@@ -26,6 +26,10 @@ pipeline {
         PGPASSWORD    = credentials('jenkins-pgpassword')
         PGDATABASE    = credentials('jenkins-pgdatabase')
         imageRoot     = 'registry-pipeline.elib.loc:5000/'
+        urlRegistry   = credentials('jenkins-urlRegistry')
+        userRegistry  = credentials('jenkins-userRegistry')
+        passRegistry  = credentials('jenkins-passRegistry')
+
     }
     stages {
         stage('Init Dblab') {
@@ -52,6 +56,7 @@ pipeline {
                     CLONE_ID = allJob[0] + '_' + allJob[1]
                     NEW_CLONE = 0
                     imageName = env.imageRoot + REPO_NAME
+                    prBuild   = env.BRANCH_NAME + '-' + env.BUILD_NUMBER
                     tagDocker = imageName + ':' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
                 }
                 script {
@@ -146,11 +151,19 @@ pipeline {
                 // sh "docker rmi ${tagDocker}"
             }
         }
-        stage('Ansible : Generate template docker-compose'){
-            steps {
-                echo "TODO"
-            }
-
+        stage('Ansible : Generate template docker-compose and pull image'){
+            ansiblePlaybook (
+                colorized: true,
+                inventory: 'ansible/inventory.yml',
+                playbook:  'ansible/playbook.yml',
+                extraVars: [
+                  PR_BUILD: prBuild,
+                  DOCKER_REGISTRY_URL: urlRegistry,
+                  DOCKER_REGISTRY_USER: userRegistry,
+                  DOCKER_REGISTRY_PASSWORD: passRegistry,
+                  DOCKER_REGISTRY_IMAGE: $tagDocker
+                ]
+            )
         }
         stage('Deliver for PR in Staging'){
             when {
