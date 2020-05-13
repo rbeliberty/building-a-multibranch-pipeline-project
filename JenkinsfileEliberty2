@@ -148,7 +148,7 @@ pipeline {
         }
         stage('Ansible : Generate template docker-compose'){
             steps {
-
+                echo "TODO"
             }
 
         }
