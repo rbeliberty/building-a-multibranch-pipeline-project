@@ -15,6 +15,9 @@
 - name: Login to registry
   shell: "docker login {{ docker_registry_url }} -u {{ docker_registry_user }} -p {{ docker_registry_password }}"
 
+- name: Docker pull image application
+  shell: docker pull {{ docker_registry_image }}
+
 - name: Run docker-compose
   shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml down
 

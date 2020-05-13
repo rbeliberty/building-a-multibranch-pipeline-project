@@ -18,6 +18,8 @@ services:
       - ./:/srv/app:rw,cached
     environment:
       - SYMFONY_VERSION
+    networks:
+      - project_{{ pr_build }}
 
   nginx:
     build:
@@ -36,10 +38,13 @@ services:
       - traefik.http.routers."{{ pr_build }}"-nginxs.rule=Host(`"{{ pr_build }}".rpstaging.com`)
       - traefik.http.routers."{{ pr_build }}"-nginxs.entrypoints=https
       - traefik.http.routers."{{ pr_build }}"-nginxs.tls=true
+    networks:
+      - default
+      - project_{{ pr_build }}
 
 networks:
   default:
     external:
       name: gateway
-  project2:
+  project_{{ pr_build }}:
     internal: true

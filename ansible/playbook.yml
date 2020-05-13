@@ -7,5 +7,6 @@
     docker_registry_url : "{{ lookup('env','DOCKER_REGISTRY_URL') }}"
     docker_registry_user : "{{ lookup('env','DOCKER_REGISTRY_USER') }}"
     docker_registry_password : "{{ lookup('env','DOCKER_REGISTRY_PASSWORD') }}"
+    docker_registry_image : "{{ lookup('env','DOCKER_REGISTRY_IMAGE') }}"
   roles:
     - deploy
