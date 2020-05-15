@@ -159,6 +159,7 @@ pipeline {
                     inventory: 'ansible/inventory.yml',
                     playbook:  'ansible/playbook.yml',
                     credentialsId: '/root/.ssh/jenkins',
+                    hostKeyChecking: false,
                     extraVars: [
                       PR_BUILD: prBuild,
                       DOCKER_REGISTRY_URL: urlRegistry,
