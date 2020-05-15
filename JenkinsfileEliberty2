@@ -34,8 +34,6 @@ pipeline {
     stages {
         stage('Init Dblab') {
             steps {
-                whoami
-                id
                 echo 'BRANCH_NAME : ' + env.BRANCH_NAME
                 echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
                 echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
