@@ -34,6 +34,8 @@ pipeline {
     stages {
         stage('Init Dblab') {
             steps {
+                whoami
+                id
                 echo 'BRANCH_NAME : ' + env.BRANCH_NAME
                 echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
                 echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
@@ -51,8 +53,6 @@ pipeline {
                 echo 'GIT_URL : ' + env.GIT_URL
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
                 script {
-                    id
-                    whoami
                     allJob = env.JOB_NAME.tokenize('/') as String[];
                     REPO_NAME = allJob[0];
                     CLONE_ID = allJob[0] + '_' + allJob[1]
