@@ -153,6 +153,9 @@ pipeline {
         }
         stage('Ansible : Generate template docker-compose and pull image'){
             steps {
+                sh "whoami"
+                sh "ping staging-pipeline.elib.loc"
+                sh "ping 172.17.32.104"
                 echo "tagDocker : $tagDocker"
                 ansiblePlaybook (
                     colorized: true,
