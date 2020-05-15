@@ -158,7 +158,7 @@ pipeline {
                     colorized: true,
                     inventory: 'ansible/inventory.yml',
                     playbook:  'ansible/playbook.yml',
-                    credentialsId: '/root/.ssh/jenkins',
+                    credentialsId: 'jenkins-ansible',
                     hostKeyChecking: false,
                     extraVars: [
                       PR_BUILD: prBuild,
