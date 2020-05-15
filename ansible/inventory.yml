@@ -3,4 +3,4 @@ all:
   children:
     staging:
       hosts:
-        xxstaging-pipeline.elib.loc
+        172.17.32.104
