@@ -22,7 +22,7 @@
   shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml down
 
 - name: Run docker-compose
-  shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml up
+  shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml up -d
 
 - name: Wait container
   uri:
