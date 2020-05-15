@@ -3,4 +3,4 @@ all:
   children:
     staging:
       hosts:
-        staging-pipeline.elib.loc
+        xxstaging-pipeline.elib.loc
