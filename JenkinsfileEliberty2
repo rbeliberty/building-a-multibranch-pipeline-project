@@ -15,7 +15,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'DockerfileJenkins2'
-            args '-u root -v /var/run/docker.sock:/var/run/docker.sock -v /home/elibadmin/.ssh/jenkins:/root/.ssh/jenkins'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock -v /var/jenkins_home/.ssh:/root/.ssh/jenkins'
         }
     }
     environment {
@@ -51,6 +51,8 @@ pipeline {
                 echo 'GIT_URL : ' + env.GIT_URL
                 echo 'GIT_COMMIT : ' + env.GIT_COMMIT
                 script {
+                    id
+                    whoami
                     allJob = env.JOB_NAME.tokenize('/') as String[];
                     REPO_NAME = allJob[0];
                     CLONE_ID = allJob[0] + '_' + allJob[1]
@@ -158,6 +160,7 @@ pipeline {
                     colorized: true,
                     inventory: 'ansible/inventory.yml',
                     playbook:  'ansible/playbook.yml',
+                    credentialsId: '/root/.ssh/jenkins',
                     extraVars: [
                       PR_BUILD: prBuild,
                       DOCKER_REGISTRY_URL: urlRegistry,
