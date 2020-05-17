@@ -144,7 +144,7 @@ pipeline {
                 echo "tagDocker : $tagDocker"
                 script {
                     docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
-                        customImage = docker.build tagDocker
+                        customImage = docker.build(tagDocker, "-f DockerfileTest .")
                         customImage.push()
                     }
                 }
