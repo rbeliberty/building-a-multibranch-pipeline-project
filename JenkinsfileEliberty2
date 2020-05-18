@@ -57,6 +57,7 @@ pipeline {
                     NEW_CLONE = 0
                     imageName = env.imageRoot + REPO_NAME
                     prBuild   = env.BRANCH_NAME + '-' + env.BUILD_NUMBER
+                    tagDocker   = imageName + ':' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
                     tagDockerPhp   = imageName + ':php_' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
                     tagDockerNginx = imageName + ':nginx_' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
                 }
