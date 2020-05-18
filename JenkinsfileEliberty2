@@ -173,7 +173,7 @@ pipeline {
                       DOCKER_REGISTRY_URL: urlRegistry,
                       DOCKER_REGISTRY_USER: userRegistry,
                       DOCKER_REGISTRY_PASSWORD: passRegistry,
-                      DOCKER_REGISTRY_IMAGE_PHP: tagDockerPhp
+                      DOCKER_REGISTRY_IMAGE_PHP: tagDockerPhp,
                       DOCKER_REGISTRY_IMAGE_NGINX: tagDockerNginx
                     ]
                 )
