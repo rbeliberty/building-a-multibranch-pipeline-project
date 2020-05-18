@@ -30,9 +30,8 @@
 - name: Wait container
   uri:
     url: "https://{{ pr_build }}.rpstaging.com"
-    status_code: 404
   register: result
-  until: result.status_code == 404
+  until: ('status' in result) and (result.status == 404)
   retries: 120
   delay: 1
 
