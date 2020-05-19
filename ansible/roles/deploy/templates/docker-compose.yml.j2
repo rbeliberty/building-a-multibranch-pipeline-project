@@ -15,7 +15,7 @@ services:
     depends_on:
       - php
     labels:
-      - traefik.enable: true
+      - traefik.enable=true
       - traefik.http.routers.{{ pr_build }}-nginx.rule=Host(`{{ pr_build }}.rpstaging.com`)
       - traefik.http.routers.{{ pr_build }}-nginx.entrypoints=http
       - traefik.http.routers.{{ pr_build }}-nginx.middlewares=redirect@file
