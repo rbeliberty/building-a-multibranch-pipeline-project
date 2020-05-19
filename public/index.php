@@ -1,3 +1,4 @@
 <?php
 
-phpinfo();
+echo "<h1>ok</h1>";
+// phpinfo();
