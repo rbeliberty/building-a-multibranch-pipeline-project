@@ -4,6 +4,9 @@ services:
   php:
     image: {{ docker_registry_image_php }}
     container_name: php_{{ pr_build }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     labels:
       - traefik.enable=false
     networks:
@@ -12,6 +15,9 @@ services:
   nginx:
     image: {{ docker_registry_image_nginx }}
     container_name: nginx_{{ pr_build }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     depends_on:
       - php
     labels:
