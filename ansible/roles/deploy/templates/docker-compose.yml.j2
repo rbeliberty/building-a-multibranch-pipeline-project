@@ -37,4 +37,6 @@ networks:
     external:
       name: gateway
   project_{{ pr_build }}:
-    internal: true
+    external:
+      name: project_{{ pr_build }}
+
