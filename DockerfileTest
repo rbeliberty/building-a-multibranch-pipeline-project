@@ -6,12 +6,11 @@ FROM composer:1.8.5 as composer
 
 COPY composer.* /app/
 
-RUN set -xe \
- && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install
 
-COPY . /app
+#COPY . /app
 
-RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
+#RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 
 #### "STAGE 2: PHP
 FROM php:${PHP_VERSION}-fpm AS symfony_php
