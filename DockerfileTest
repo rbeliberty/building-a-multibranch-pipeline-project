@@ -1,6 +1,9 @@
 ARG PHP_VERSION=7.4
 ARG NGINX_VERSION=1.17
 
+# build for production
+ARG APP_ENV=dev
+
 #### STAGE 1 : Compopser
 FROM composer:1.8.5 as composer
 
