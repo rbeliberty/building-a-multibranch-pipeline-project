@@ -81,7 +81,7 @@ pipeline {
 
         stage('Clone DB & Docker build') {
             parallel {
-                stage('database') {
+                stage('Init Clone db') {
                     stages {
                         stage('Check Association PGClone/PR') {
                             steps {
@@ -149,7 +149,7 @@ pipeline {
                     }
                 }
 
-                stage('Docker build...'){
+                stage('Docker build'){
                     stages {
                         stage('Build Image and Push Registry') {
                             steps {
