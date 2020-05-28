@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
     gnupg2 \
     dirmngr \
     unzip \
-    zip
+    zip \
+    net-tools \
+    iputils-ping
 
 WORKDIR /srv/app
 
@@ -27,7 +29,10 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
     gnupg2 \
     dirmngr \
     unzip \
-    zip
+    zip \
+    net-tools \
+    iputils-ping
+
 RUN rm /etc/nginx/conf.d/default.conf
 COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/
 
