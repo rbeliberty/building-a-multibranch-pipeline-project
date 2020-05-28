@@ -10,7 +10,7 @@ services:
     labels:
       - traefik.enable=false
     networks:
-      - project_{{ pr_build }}
+      - default
 
   nginx:
     image: {{ docker_registry_image_nginx }}
@@ -30,13 +30,11 @@ services:
       - traefik.http.routers.{{ pr_build }}-nginxs.tls=true
     networks:
       - default
-      - project_{{ pr_build }}
+
 
 networks:
   default:
     external:
       name: gateway
-  project_{{ pr_build }}:
-    external:
-      name: project_{{ pr_build }}
+
 
