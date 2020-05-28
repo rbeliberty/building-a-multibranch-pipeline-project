@@ -4,13 +4,9 @@ services:
   php:
     image: {{ docker_registry_image_php }}
     container_name: php_{{ pr_build }}
-    labels:
-      - traefik.enable=true
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    networks:
-      - project_{{ pr_build }}
 
   nginx:
     image: {{ docker_registry_image_nginx }}
@@ -28,15 +24,19 @@ services:
       - traefik.http.routers.{{ pr_build }}-nginxs.rule=Host(`{{ pr_build }}.rpstaging.com`)
       - traefik.http.routers.{{ pr_build }}-nginxs.entrypoints=https
       - traefik.http.routers.{{ pr_build }}-nginxs.tls=true
+      - traefik.docker.network=gateway
     networks:
-      - default
+      - gateway
       - project_{{ pr_build }}
 
+
 networks:
-  default:
-    external:
-      name: gateway
+
+  gateway:
+    external: true
+    name: gateway
+
   project_{{ pr_build }}:
-    internal:
-      name: project_{{ pr_build }}
+    internal: true
+    name: project_{{ pr_build }}
 
