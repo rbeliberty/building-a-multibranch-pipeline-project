@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
     unzip \
     zip \
     net-tools \
-    iputils-ping
+    iputils-ping \
+    nano
 
 WORKDIR /app
 
@@ -44,7 +45,8 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
     unzip \
     zip \
     net-tools \
-    iputils-ping
+    iputils-ping \
+    nano
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
