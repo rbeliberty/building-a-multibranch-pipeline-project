@@ -27,16 +27,15 @@ services:
       - traefik.docker.network=gateway
     networks:
       - gateway
-      - project_{{ pr_build }}
+      - default
 
 
 networks:
 
+  default:
+    internal: true
+
   gateway:
     external: true
     name: gateway
-
-  project_{{ pr_build }}:
-    internal: true
-    name: project_{{ pr_build }}
 
