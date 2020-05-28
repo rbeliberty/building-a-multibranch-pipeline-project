@@ -79,7 +79,7 @@ pipeline {
             }
         }
 
-        stage('Parallel stage'){
+
             parallel {
                 stage('database') {
                     stage('Check Association PGClone/PR') {
@@ -190,7 +190,7 @@ pipeline {
                 }
             }
 
-        }
+
 
         stage('Deliver for PR in Staging'){
             when {
