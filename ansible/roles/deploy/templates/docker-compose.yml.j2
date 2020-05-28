@@ -7,10 +7,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    labels:
-      - traefik.enable=false
     networks:
-      - default
+      - project_{{ pr_build }}
 
   nginx:
     image: {{ docker_registry_image_nginx }}
@@ -30,11 +28,13 @@ services:
       - traefik.http.routers.{{ pr_build }}-nginxs.tls=true
     networks:
       - default
-
+      - project_{{ pr_build }}
 
 networks:
   default:
     external:
       name: gateway
-
+  project_{{ pr_build }}:
+    external:
+      name: project_{{ pr_build }}
 
