@@ -4,6 +4,8 @@ services:
   php:
     image: {{ docker_registry_image_php }}
     container_name: php_{{ pr_build }}
+    labels:
+      - traefik.enable=true
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
