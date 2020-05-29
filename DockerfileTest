@@ -31,7 +31,7 @@ WORKDIR /srv/app
 
 COPY . /srv/app
 
-COPY --from=composer /app/vendor /app/vendor
+COPY --from=composer /app/vendor /srv/app/vendor
 
 ########################################################################################################## "nginx" stage
 # depends on the "php" stage above
@@ -57,7 +57,7 @@ COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/
 
 WORKDIR /srv/app
 
-COPY --from=symfony_php /app/public public/
+COPY --from=symfony_php /srv/app/public public/
 
 VOLUME /srv/app
 VOLUME /etc/nginx/conf.d
