@@ -3,14 +3,10 @@ ARG NGINX_VERSION=1.17
 
 #### STAGE 1 : Compopser
 FROM composer:1.8.5 as composer
-
 COPY composer.* /app/
-
 RUN set -xe \
  && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
-
 COPY . /app
-
 RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 
 #### "STAGE 2: PHP
@@ -25,12 +21,23 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
     zip \
     net-tools \
     iputils-ping \
-    nano
+    nano \
+    php-imagick \
+    php-redis \
+    php-amqp \
+    php-yaml \
+    php-xdebug \
+    libpq-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libpq-dev \
+    libfreetype6-dev \
+    openssl \
+    htmldoc \
+    libmcrypt-dev
 
 WORKDIR /srv/app
-
 COPY . /srv/app
-
 COPY --from=composer /app/vendor /srv/app/vendor
 
 ########################################################################################################## "nginx" stage

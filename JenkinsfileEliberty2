@@ -157,7 +157,7 @@ pipeline {
 
                                 script {
                                     docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
-                                        customImage = docker.build(tagDockerPhp, "--target symfony_php -f DockerfileTest2 .")
+                                        customImage = docker.build(tagDockerPhp, "--target symfony_php -f DockerfileTest .")
                                         customImage.push()
                                     }
                                     docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
