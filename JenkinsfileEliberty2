@@ -154,8 +154,8 @@ pipeline {
                         stage('Build Image and Push Registry') {
                             steps {
                                 echo "tagDocker : $tagDocker"
-                                pwd
-                                ls -la
+                                sh "pwd"
+                                sh "ls -la"
 
                                 script {
                                     docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
