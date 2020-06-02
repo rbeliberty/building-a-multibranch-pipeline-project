@@ -7,11 +7,11 @@ if [ "${1#-}" != "$1" ]; then
 fi
 
 
-	PHP_INI_RECOMMENDED="$PHP_INI_DIR/php.ini-production"
-	if [ "$APP_ENV" != 'prod' ]; then
-		PHP_INI_RECOMMENDED="$PHP_INI_DIR/php.ini-development"
-	fi
-	ln -sf "$PHP_INI_RECOMMENDED" "$PHP_INI_DIR/php.ini"
+	#PHP_INI_RECOMMENDED="$PHP_INI_DIR/php.ini-production"
+	#if [ "$APP_ENV" != 'prod' ]; then
+	#	PHP_INI_RECOMMENDED="$PHP_INI_DIR/php.ini-development"
+	#fi
+	#ln -sf "$PHP_INI_RECOMMENDED" "$PHP_INI_DIR/php.ini"
 
   mkdir -p var/cache var/log
   composer install --prefer-dist --no-progress --no-suggest --no-interaction
