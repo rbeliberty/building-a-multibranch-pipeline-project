@@ -152,7 +152,9 @@ pipeline {
                 stage('Docker build'){
                     stages {
                         stage('Generate env file') {
-                            sh "./jenkins/scripts/generate-env-file.sh $ENV_CI"
+                            steps {
+                                sh "./jenkins/scripts/generate-env-file.sh $ENV_CI"
+                            }
                         }
                         stage('Build Image and Push Registry') {
                             steps {
