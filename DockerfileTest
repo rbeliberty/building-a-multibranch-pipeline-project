@@ -27,7 +27,7 @@ COPY docker/php/conf.d/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
 WORKDIR /srv/app
 COPY . .
-ADD .env .env
+
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=composer /app/vendor /srv/app/vendor
 
