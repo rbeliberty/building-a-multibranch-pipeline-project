@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
     zip \
     net-tools \
     iputils-ping \
-    nano
+    nano \
+    acl
 
 COPY docker/php/conf.d/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
 
