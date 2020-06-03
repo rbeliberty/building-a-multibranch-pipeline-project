@@ -1,0 +1,31 @@
+pipeline {
+    agent {
+        dockerfile {
+            filename 'DockerfileJenkins6'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-e DOCKER_HOST=tcp://192.168.48.3:2375'
+        }
+    }
+
+    stages {
+        stage('Build Image and Push Registry') {
+            steps {
+                sh '''
+                    id
+                    cat /etc/passwd | grep "jenkins:"
+                    cat /etc/group | grep "docker:"
+                    cat /etc/group | grep "jenkins:"
+                    stat /var/run/docker.sock
+                    docker build -t test:test-2129 .
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
+
+

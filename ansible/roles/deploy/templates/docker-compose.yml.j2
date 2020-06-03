@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  php:
+    image: {{ docker_registry_image_php }}
+    container_name: php_{{ pr_build }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  nginx:
+    image: {{ docker_registry_image_nginx }}
+    container_name: nginx_{{ pr_build }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    depends_on:
+      - php
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.{{ pr_build }}-nginx.rule=Host(`{{ pr_build }}.rpstaging.com`)
+      - traefik.http.routers.{{ pr_build }}-nginx.entrypoints=http
+      - traefik.http.routers.{{ pr_build }}-nginx.middlewares=redirect@file
+      - traefik.http.routers.{{ pr_build }}-nginxs.rule=Host(`{{ pr_build }}.rpstaging.com`)
+      - traefik.http.routers.{{ pr_build }}-nginxs.entrypoints=https
+      - traefik.http.routers.{{ pr_build }}-nginxs.tls=true
+      - traefik.docker.network=gateway
+    networks:
+      - gateway
+      - default
+
+
+networks:
+
+  default:
+    internal: true
+
+  gateway:
+    external: true
+    name: gateway
+

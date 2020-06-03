@@ -1,0 +1,13 @@
+---
+- name: Install application
+  hosts: staging
+  remote_user: elibadmin
+  vars:
+    pr_build:                      "{{ PR_BUILD }}"
+    docker_registry_url:           "{{ DOCKER_REGISTRY_URL }}"
+    docker_registry_user:          "{{ DOCKER_REGISTRY_USER }}"
+    docker_registry_password:      "{{ DOCKER_REGISTRY_PASSWORD }}"
+    docker_registry_image_php:     "{{ DOCKER_REGISTRY_IMAGE_PHP }}"
+    docker_registry_image_nginx:   "{{ DOCKER_REGISTRY_IMAGE_NGINX }}"
+  roles:
+    - deploy

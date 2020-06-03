@@ -1,0 +1,243 @@
+/* script {
+    if (env.BRANCH_NAME.startsWith("PR-")) {
+        echo "Deploying to Staging environment after build"
+        env.ENV_CI = "staging"
+    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+        echo "Deploying to preprod after build and Staging Deployment"
+        env.ENV_CI = "preprod"
+    } else if (env.BRANCH_NAME.startsWith("master")) {
+        echo "Deploying to PROD environment"
+        env.ENV_CI = "prod"
+    }
+} */
+
+pipeline {
+    agent {
+        dockerfile {
+            filename 'DockerfileJenkins2'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock -v /var/jenkins_home/.ssh:/root/.ssh/jenkins'
+        }
+    }
+    environment {
+        DBLAB_URL     = credentials('jenkins-dblab-stage-url')
+        DBLAB_TOKEN   = credentials('jenkins-dblab-stage-token')
+        PGUSER        = credentials('jenkins-pguser')
+        PGPASSWORD    = credentials('jenkins-pgpassword')
+        PGDATABASE    = credentials('jenkins-pgdatabase')
+        imageRoot     = 'registry-pipeline.elib.loc:5000/'
+        urlRegistry   = credentials('jenkins-urlRegistry')
+        userRegistry  = credentials('jenkins-userRegistry')
+        passRegistry  = credentials('jenkins-passRegistry')
+    }
+
+    stages {
+
+        stage('Init Dblab') {
+            steps {
+                echo 'BRANCH_NAME : ' + env.BRANCH_NAME
+                echo 'CHANGE_ID (PR NUMBER) : ' + env.CHANGE_ID
+                echo 'CHANGE_AUTHOR : ' + env.CHANGE_AUTHOR
+                echo 'CHANGE_TARGET : ' + env.CHANGE_TARGET
+                echo 'CHANGE_BRANCH : ' + env.CHANGE_BRANCH
+                echo 'CHANGE_FORK : ' + env.CHANGE_FORK
+                echo 'BUILD_NUMBER : ' + env.BUILD_NUMBER
+                echo 'BUILD_ID : ' + env.BUILD_ID
+                echo 'BUILD_DISPLAY_NAME : ' + env.BUILD_DISPLAY_NAME
+                echo 'JOB_NAME : ' + env.JOB_NAME
+                echo 'JOB_BASE_NAME : ' + env.JOB_BASE_NAME
+                echo 'BUILD_TAG : ' + env.BUILD_TAG
+                echo 'GIT_BRANCH : ' + env.GIT_BRANCH
+                echo 'GIT_LOCAL_BRANCH : ' + env.GIT_LOCAL_BRANCH
+                echo 'GIT_URL : ' + env.GIT_URL
+                echo 'GIT_COMMIT : ' + env.GIT_COMMIT
+                script {
+                    allJob = env.JOB_NAME.tokenize('/') as String[];
+                    REPO_NAME = allJob[0];
+                    CLONE_ID  = allJob[0] + '_' + allJob[1]
+                    NEW_CLONE = 0
+                    imageName = env.imageRoot + REPO_NAME
+                    prBuild   = env.BRANCH_NAME + '-' + env.BUILD_NUMBER
+                    tagDocker   = imageName + ':' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
+                    tagDockerPhp   = imageName + ':php_' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
+                    tagDockerNginx = imageName + ':nginx_' + env.BRANCH_NAME + '-' + env.BUILD_NUMBER
+                }
+                script {
+                    if (env.BRANCH_NAME.startsWith("PR-")) {
+                        echo "Deploying to Staging environment after build"
+                        ENV_CI = "staging"
+
+                    } else if (env.BRANCH_NAME.startsWith("Release_")) {
+                        echo "Deploying to preprod after build and Staging Deployment"
+                        ENV_CI = "preprod"
+
+                    } else if (env.BRANCH_NAME.startsWith("master")) {
+                        echo "Deploying to PROD environment"
+                        ENV_CI = "prod"
+                    }
+                }
+                sh "./jenkins/scripts/init-dblab.sh $ENV_CI $DBLAB_URL $DBLAB_TOKEN"
+            }
+        }
+
+        stage('Clone DB & Docker build') {
+            parallel {
+                stage('Init Clone db') {
+                    stages {
+                        stage('Check Association PGClone/PR') {
+                            steps {
+                                echo "REPO_NAME = $REPO_NAME"
+                                echo "CLONE_ID = $CLONE_ID"
+                                echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
+                                script {
+                                    RESULT = sh(
+                                        script: "./jenkins/scripts/check-association.sh ${env.BRANCH_NAME} $REPO_NAME $ENV_CI",
+                                        returnStdout: true
+                                    ).trim()
+                                }
+                                echo "RESULT = $RESULT"
+                            }
+                        }
+                        stage('Clone a DB snapshot') {
+                            when {
+                               expression { RESULT == "" }
+                            }
+                            steps {
+                                echo "REPO_NAME = $REPO_NAME"
+                                echo "ENV_CI = $ENV_CI" // prints "ENV_CI = staging|preprod|prod"
+                                script {
+                                    env.CLONE_JSON = sh(
+                                        script: "./jenkins/scripts/make-clone.sh $CLONE_ID $ENV_CI",
+                                        returnStdout: true
+                                    ).trim()
+                                }
+                                echo "CLONE_JSON " + env.CLONE_JSON
+                                script {
+                                    // Laissez cette variable en env.
+                                    env.CLONE_PORT = sh(
+                                        script: "./jenkins/scripts/jq-clone.sh $CLONE_ID",
+                                        returnStdout: true
+                                    ).trim()
+                                }
+                                echo "CLONE_PORT " + env.CLONE_PORT
+                                script {
+                                    //trick RESULT = "x x x $CHANGE_AUTHOR x x x x x $CLONE_PORT"
+                                    RESULT = "$CHANGE_AUTHOR $CLONE_PORT"
+                                    NEW_CLONE = 1
+                                }
+                            }
+                        }
+                        stage('PG Clone Connection Test') {
+                            steps {
+                                // Attention RESULT contient plusieurs strings séparés par un espace
+                                sh "./jenkins/scripts/test-pg.sh $RESULT"
+                            }
+                        }
+                        stage('Backup association PGClone') {
+                            when {
+                               expression { NEW_CLONE == 1 }
+                            }
+                            steps{
+                                script {
+                                    INSERT_ASSOCIATION = sh(
+                                        script: "./jenkins/scripts/insert-association.sh $CLONE_ID $ENV_CI $REPO_NAME",
+                                        returnStdout: true
+                                    ).trim()
+                                }
+                                echo "INSERT_ASSOCIATION : $INSERT_ASSOCIATION"
+                            }
+                        }
+                    }
+                }
+
+                stage('Docker build'){
+                    stages {
+                        stage('Generate env file') {
+                            steps {
+                                sh "./jenkins/scripts/generate-env-file.sh $ENV_CI"
+                            }
+                        }
+                        stage('Build Image and Push Registry') {
+                            steps {
+                                echo "tagDocker : $tagDocker"
+                                sh "pwd"
+                                sh "ls -la"
+
+                                script {
+                                    docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
+                                        customImage = docker.build(tagDockerPhp, "--build-arg USER_ID=1000 --build-arg GROUP_ID=1000 --target symfony_php -f DockerfileTest .")
+                                        customImage.push()
+                                    }
+                                    docker.withRegistry('http://registry-pipeline.elib.loc:5000', 'myregistry_login') {
+                                        customImage = docker.build(tagDockerNginx, "--target symfony_nginx -f DockerfileTest .")
+                                        customImage.push()
+                                    }
+                                }
+                                // sh "docker rmi ${tagDocker}"
+                            }
+                        }
+                        stage('Ansible : Generate template docker-compose and pull image'){
+                            steps {
+                                sh "whoami"
+                                sh "ping staging-pipeline.elib.loc -c2"
+                                echo "tagDocker : $tagDocker"
+                                ansiblePlaybook (
+                                    colorized: true,
+                                    inventory: 'ansible/inventory.yml',
+                                    playbook:  'ansible/playbook.yml',
+                                    credentialsId: 'jenkins-ansible',
+                                    disableHostKeyChecking: true,
+                                    extraVars: [
+                                      PR_BUILD: prBuild,
+                                      DOCKER_REGISTRY_URL: urlRegistry,
+                                      DOCKER_REGISTRY_USER: userRegistry,
+                                      DOCKER_REGISTRY_PASSWORD: passRegistry,
+                                      DOCKER_REGISTRY_IMAGE_PHP: tagDockerPhp,
+                                      DOCKER_REGISTRY_IMAGE_NGINX: tagDockerNginx
+                                    ]
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deliver for PR in Staging'){
+            when {
+                expression { BRANCH_NAME ==~ /PR-\d+/ } 
+            }
+            steps {
+                sh 'echo ./jenkins/scripts/deliver-for-development.sh'
+                input message: 'Finished using the web site ? (Click "Proceed" to continue)'
+                sh 'echo ./jenkins/scripts/kill.sh'
+            }
+        }
+        stage('Deliver for preprod') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                sh 'echo ./jenkins/scripts/deliver-for-development.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh 'echo ./jenkins/scripts/kill.sh'
+            }
+        }
+        stage('Deploy for production') {
+            when {
+                branch 'production'
+            }
+            steps {
+                sh 'echo ./jenkins/scripts/deploy-for-production.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh 'echo ./jenkins/scripts/kill.sh'
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
+
+

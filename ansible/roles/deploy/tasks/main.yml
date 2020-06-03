@@ -1,0 +1,37 @@
+---
+- name: Create directory PR-BUILD
+  file:
+    dest: /home/elibadmin/Docker/{{ pr_build }}
+    mode: 0750
+    recurse: yes
+    state: directory
+
+- name: Create docker-compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml
+    mode: 0640
+
+#- name: Create env file
+#  template:
+#    src: env.dev.j2
+#    dest: /home/elibadmin/Docker/{{ pr_build }}/.env
+#    mode: 0640
+
+- name: Login to registry
+  shell: "docker login {{ docker_registry_url }} -u {{ docker_registry_user }} -p {{ docker_registry_password }}"
+
+- name: Docker pull php image application
+  shell: docker pull {{ docker_registry_image_php }}
+
+- name: Docker pull nginx image application
+  shell: docker pull {{ docker_registry_image_nginx }}
+
+- name: Run docker-compose
+  shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml down
+
+- name: Run docker-compose
+  shell: docker-compose -f /home/elibadmin/Docker/{{ pr_build }}/docker-compose.yml up -d
+
+
+

@@ -1,0 +1,36 @@
+
+
+pipeline {
+    agent {
+        dockerfile {
+            filename 'DockerfileJenkins3'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '--privileged'
+
+        }
+    }
+
+    stages {
+        stage('Build Image and Push Registry') {
+            steps {
+                withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
+                    echo "imageName : $imageName"
+                    sh '''
+                        id -u
+                        id -g
+                        whoami
+                        ls -la
+                        docker build -t test:latest .
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
+
+
